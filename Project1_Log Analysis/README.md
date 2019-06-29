@@ -1,4 +1,4 @@
-2# Logs Analysis Project
+# Logs Analysis Project
 Logs analysis is part of Udacity Full Stack NanoDegree Program.  This project is to build an **internal reporting tool**  that will use information from database to find what kind of articles the site's readers like.  Python **psycopg2** module is used to connect to the database. 
 
 ## Program Environment Requirements 
