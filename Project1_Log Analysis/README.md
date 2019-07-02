@@ -43,7 +43,7 @@ $ -f newsdata.sql
 ```
 
 #### 4. Create views in news database. 
- You can also refer to my git repository for text version of creating view SQL command [here](https://github.com/faith7/Udacity_Projects_FullStack/tree/master/Project1_Log%20Analysis).
+ You can also refer to my git repository for text version of creating view SQL command [here](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project1_Log%20Analysis/create_views.txt).
 
 ```
 $ cd /vagrant 
