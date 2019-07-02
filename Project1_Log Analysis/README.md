@@ -57,7 +57,7 @@ $ create view [view name] as [sql view queries]
 
 
 #### 5. Run the reporting program. 
-```python
+```
 $ python reporting.py
 ```
 ## Coding Style Test
