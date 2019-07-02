@@ -6,9 +6,6 @@ Logs analysis is part of Udacity Full Stack NanoDegree Program.  This project is
      2. Who are the most popular article authors of all time? 
      3. On which days did more than 1% of requests lead to errors?
 
-### Reporting result
-![ ](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project1_Log%20Analysis/reporting_result.png) 
-
 # Program Environment Requirements 
   - [Python3](https://www.python.org/downloads/)
   - [Linux-based Virtual Machine (VM)](https://www.virtualbox.org/wiki/Download_Old_Builds) 
@@ -49,16 +46,18 @@ $ -f newsdata.sql
 $ cd /vagrant 
 $ psql -d news -f create_views.sql  
 ```
+
 #### SQL Views
 Three views are created to resolve 3rd reporting question. 
-##### total_request view
+
+**total_request view**
 ```
 create view total_request as
 select date(time) as day, count(*) as total
 from log group by day order by total;
 ```
 
-##### error_request
+**error_request**
 ```
 create view error_request as
 select date(time) as day, count(*) as error from log
@@ -67,7 +66,7 @@ group by day
 order by error desc;
 ```
 
-##### error_percent
+**error_percent**
 ```
 create view error_percent as
 select total_request.day,
@@ -80,6 +79,10 @@ where total_request.day = error_request.day;
 ```
 $  ./reporting.py
 ```
+
+## Reporting result
+![ ](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project1_Log%20Analysis/reporting_result.png) 
+
 ## Coding Style Test
  PEP8 style recommendation is followed. 
 ```
