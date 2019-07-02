@@ -1,18 +1,11 @@
-
-#!/usr/bin python3
+#!/usr/bin/env python
 import psycopg2
 import bleach
 
 query1_title = " What are the most popular three articles of all time? \n"
 query1 = '''
-select articles.title, count(*) as views from articles
-join log on log.path like concat('%', articles.slug)
-group by articles.title order by views desc limit 3
-'''
-# alternative way
-'''
-query1 = select title, count(*) as views from articles, log
-where log.path = concat('/article/', articles.slug)
+select title, count(*) as views from articles, log
+where log.path = '/article/'|| articles.slug
 group by articles.title order by views desc limit 3
 '''
 
@@ -20,9 +13,10 @@ query2_title = " Who are the most popular article authors of all time? \n"
 query2 = '''
 select authors.name, count(*) as views from articles
 join authors on authors.id = articles.author
-join log on log.path=concat('/article/', articles.slug)
+join log on log.path='/article/' || articles.slug
 group by authors.name order by views desc
 '''
+
 query3_title = '''
  On which days did more than 1 percent of requests lead to errors? \n'''
 query3 = '''
@@ -33,6 +27,7 @@ where error_pct > 1.0 ;
 
 
 def get_queries(query_num):
+    '''Connect to the news database & print out the query results.'''
     try:
         db = psycopg2.connect("dbname=news")
         c = db.cursor()
@@ -44,8 +39,9 @@ def get_queries(query_num):
             else:
                 print(" * %s -- %d views" % (key, value))
         db.close()
-    except BaseException:
-        print("Unable to connect to the database")
+
+    except psycopg2.DatabaseError as error:
+        print(error)
 
 
 if __name__ == "__main__":
