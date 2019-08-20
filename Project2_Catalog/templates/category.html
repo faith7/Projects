@@ -1,0 +1,35 @@
+{% block content %}
+
+<div class="container">
+  <div class="container-categories">
+    <h5>Categories List</h5>
+  </div>
+  <ul>
+    {% for category in categories %}
+    <a
+      href="{{ url_for('showCategory', category_id=category_id) }}"
+    >
+      <li>
+        <span>{{ category.genre }}</span>
+      </li>
+    </a>
+    {% endfor %}
+  </ul>
+  <div class="container-items">
+    <h5> {{categoryName}}</h5>
+  </div>
+  <ul>
+    {% for categoryItem in categoryItems %}
+
+    <a
+      href="{{ url_for('showCategory', category_id=category_id, item_id=item.id) }}"
+    >
+      <li>
+        <span>{{ categoryItem.name }} </span>
+      </li>
+    </a>
+    {% endfor %}
+  </ul>
+</div>  
+</div>
+{% endblock %} 

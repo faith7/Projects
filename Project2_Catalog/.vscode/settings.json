@@ -1,0 +1,7 @@
+{
+    "liveServer.settings.port": 5501,
+    "python.linting.flake8Enabled": false,
+    "python.linting.pep8Enabled": true,
+    "python.linting.enabled": true,
+    "python.pythonPath": "C:\\python\\python.exe"
+}
