@@ -2,7 +2,7 @@ import sys
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 Base = declarative_base()
 
@@ -44,10 +44,11 @@ class Item(Base):
     release = Column(String)
     img = Column(String)
 
-    category = relationship(Category)
+    category = relationship(
+        Category, backref=backref("item", lazy=True))
     category_id = Column(Integer, ForeignKey('category.id'))
 
-    user = relationship(User)
+    user = relationship(User, backref=backref("user", lazy=True))
     user_id = Column(Integer, ForeignKey('user.id'))
 
 
@@ -59,7 +60,8 @@ def serialize(self):
         'show': self.show,
         'title': self.title,
         'description': self.description,
-        'release': self.release
+        'release': self.release,
+        'img': self.img
     }
 
 

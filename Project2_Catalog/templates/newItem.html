@@ -1,0 +1,46 @@
+{% block content %}
+
+<div class="container">
+  <div class="container-newCategory">
+    <h5>Please insert a new Movie/Show item.</h5>
+    <form action="{{ url_for('newItem') }}" method="POST">
+      <div class="form">
+        <label>New Item: </label> <br />
+        <select name="show">
+          <option selected>show </option>
+          <option>movie</option> </select
+        ><br />
+        <label> Title: </label
+        ><input type="text" name="title" placeholder="title" /><br />
+        <label> Genre:</label>
+        <select name="category">
+          {% for category in categories %}
+          <option selected value="{{ category.id }}">
+            {{ category.genre }}
+          </option>
+          {% endfor %}
+        </select>
+        <label> Description: </label
+        ><input
+          type="textarea"
+          name="description"
+          placeholder="description"
+        /><br />
+        <label> Relased year: </label>
+        <input
+          type="text"
+          name="release"
+          placeholder="YYYY release year"
+        /><br />
+        <label> Poster Url: </label
+        ><input type="text" name="img" placeholder="image_url" /><br />
+
+        <button type="submit">Create</button>
+        <a href="{{ url_for('showCatalog') }}">Cancel</a>
+        <!-- <button type="submit">Cancel</button> -->
+      </div>
+    </form>
+  </div>
+</div>
+
+{%endblock%}

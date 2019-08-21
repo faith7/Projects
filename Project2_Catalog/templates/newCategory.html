@@ -1,0 +1,19 @@
+{% block content %}
+
+<div class="container">
+  <div class="container-newCategory">
+    <h5>Please insert a new category</h5>
+    <form method="POST">
+      <div class="form">
+        <label>New Category: </label>
+        <input type="text" name="genre" placeholder="Type a new category" />
+      </div>
+      <button type="submit">Create</button>
+      <a href="{{url_for('showCatalog')}}">Cancel</a> 
+   
+    </form>
+     <!-- <button type="submit">Cancel</button>
+  </div>
+</div>
+
+{% endblock %}
