@@ -13,8 +13,8 @@
       </div>
       <ul>
         {% for category in categories %}
-        <a href="{{ url_for('showCategory', category_id=category.id) }}">
           <li>
+            <a href="{{ url_for('showCategory', category_id=category.id) }}">
             <span>{{ category.genre }}</span>
           </li>
         </a>
@@ -24,14 +24,15 @@
         <h5>Latest Items</h5>
       </div>
       <ul>
-        {% for item in items %}
-        <a href="{{ url_for('showCatalog') }}">
+        {% for item in item5 %}
           <li>
-            <span>{{ item.title}}</span>
+            <a href="{{ url_for('showItem', category_id=item.category_id, item_id=item.id) }}">
+            <span>{{ item.title }}</span>
           </li>
         </a>
         {%endfor%}
       </ul>
     </div>
+     <button>Explore More!</button>
   </body>
 </html>

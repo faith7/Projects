@@ -33,8 +33,9 @@ def showCatalog():
     # get all categories
     categories = session.query(Category).all()
     # retrieve five recently realeased movie/show titles
-    items = session.query(Item).order_by(Item.release.desc()).limit(5)
-    return render_template('catalog.html', categories=categories, items=items)
+    item5 = session.query(Item).order_by(Item.release.desc()).limit(5)
+    return render_template('catalog.html', categories=categories,
+                           item5=item5)
 
 
 # show items within the specific category
@@ -155,50 +156,53 @@ def delItem(category_id, item_id):
 
 
 # edit an item
-@app.route('/catalog/<int:category_id>/<int:edit_id>/edit/',
+@app.route('/catalog/<int:category_id>/<int:item_id>/edit/',
            methods=['GET', 'POST'])
-def editItem(category_id, edit_id):
-    editItem = session.query(Item).filter_by(id=edit_id).one()
+def editItem(category_id, item_id):
+    categories = session.query(Category).all()
+    category = session.query(Category).filter_by(id=category_id).one()
+    editItem = session.query(Item).filter_by(id=item_id).one()
     if request.method == 'POST':
         if request.form['show'] == '':
-            editCat.show = editCat.show
+            editItem.show = editItem.show
         else:
-            editCat.show = request.form['show']
+            editItem.show = request.form['show']
 
         if request.form['title'] == '':
-            editCat.title = editCat.title
+            editItem.title = editItem.title
         else:
-            editCat.title = request.form['title']
+            editItem.title = editItem.form['title']
 
         if request.form['description'] == '':
-            editCat.description = editCat.description
+            editItem.description = editItem.description
         else:
-            editCat.description = request.form['description']
+            editItem.description = request.form['description']
 
         if request.form['release'] == '':
-            editCat.release = editCat.release
+            editItem.release = editItem.release
         else:
-            editCat.release = request.form['release']
+            editItem.release = request.form['release']
 
         if request.form['img'] == '':
-            editCat.img = editCat.img
+            editItem.img = editItem.img
         else:
-            editCat.img = request.form['img']
+            editItem.img = request.form['img']
 
         if request.form['category'] == '':
-            editCat.category = editCat.category
+            editItem.category = editItem.category
         else:
-            editCat.category = request.form['category']
+            editItem.category = request.form['category']
 
-        session.add(editCat)
+        session.add(editItem)
         session.commit()
         flash("You just updated the Item!")
         return redirect(url_for('showCatalog'))
     else:
-        return render_template('editItem.html', editItem=editItem)
+        return render_template('editItem.html',
+                               editItem=editItem, categories=categories,
+                               category=category)
 
 
 if __name__ == '__main__':
-    app.debug = True
     app.secret_key = 'super_secret_key'
     app.run(host='0.0.0.0', port=8080)
