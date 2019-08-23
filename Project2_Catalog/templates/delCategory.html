@@ -1,6 +1,6 @@
 <form method="POST">
-    <p>Are you sure to delete {{delCategory.genre}}? </p>
+    <p>Are you sure to delete this category:  {{delCategory.genre}}? </p>
 <input type="submit" value="DELETE">
-<a href="{{ url_for('showCatalog') }}">CANCEL</button>
+<a href="{{ url_for('showCategory',category_id=category_id) }}">Cancel</a>
 </form>
 

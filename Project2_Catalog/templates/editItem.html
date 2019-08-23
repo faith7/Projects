@@ -36,7 +36,7 @@
         ><input type="text" name="img" placeholder="image_url" /><br />
 
         <button type="submit">Create</button>
-        <a href="{{ url_for('showCatalog') }}">Cancel</a>
+        <a href="{{ url_for('showCategory',category_id=category_id, item_id=editItem.id) }}">Cancel</a>
         <!-- <button type="submit">Cancel</button> -->
       </div>
     </form>

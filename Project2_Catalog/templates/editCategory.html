@@ -7,6 +7,6 @@
         <input type="text" name="genre" placeholder="Type a new category" />
       </div>
       <button type="submit">Update</button>
-      <a href="{{url_for('showCatalog')}}">Cancel</a> 
+      <a href="{{ url_for('showCategory',category_id=category_id) }}">Cancel</a>
    
     </form>

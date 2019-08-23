@@ -75,7 +75,8 @@ def showCategory(category_id):
     items = session.query(Item).filter_by(category_id=category.id).all()
 
     return render_template('category.html', categories=categories, items=items,
-                           category=category, categoryName=categoryName
+                           category=category, categoryName=categoryName,
+                           category_id=category_id
                            )
 
 
@@ -92,7 +93,8 @@ def showItem(category_id, item_id):
     with open('static/local', 'wb') as f:
         f.write(urllib.request.urlopen(url).read())
 
-    return render_template('item.html', category=category, item=item)
+    return render_template('item.html', category=category, item=item,
+                           category_id=category_id, item_id=item_id)
 
 
 # create new category
@@ -106,7 +108,7 @@ def newCategory():
         session.commit()
 
         flash("You just created a new Category!")
-        return redirect(url_for('showCatalog'))
+        return redirect(url_for('showCategory', category_id=1))
     else:
         return render_template('newCategory.html')
 
@@ -152,9 +154,10 @@ def editCategory(category_id):
         session.add(editCat)
         session.commit()
         flash("You just updated the category!")
-        return redirect(url_for('showCatalog'))
+        return redirect(url_for('showCategory', category_id=category_id))
     else:
-        return render_template('editCategory.html', editCat=editCat)
+        return render_template('editCategory.html',
+                               editCat=editCat, category_id=category_id)
 
 
 # delete a category
@@ -167,7 +170,8 @@ def delCategory(category_id):
         flash("You successfully deleted the category!")
         return redirect(url_for('showCatalog'))
     else:
-        return render_template('delCategory.html', delCategory=delCategory)
+        return render_template('delCategory.html', delCategory=delCategory,
+                               category_id=category_id)
 
 
 # delete an item
@@ -189,7 +193,7 @@ def delItem(category_id, item_id):
 @app.route('/catalog/<int:category_id>/<int:item_id>/edit/',
            methods=['GET', 'POST'])
 def editItem(category_id, item_id):
-    categories = session.query(Category).all()
+    # categories = session.query(Category).all()
     category = session.query(Category).filter_by(id=category_id).one()
     editItem = session.query(Item).filter_by(id=item_id).one()
     if request.method == 'POST':
@@ -226,11 +230,11 @@ def editItem(category_id, item_id):
         session.add(editItem)
         session.commit()
         flash("You just updated the Item!")
-        return redirect(url_for('showCatalog'))
+        return redirect(url_for('showCategory', category_id=category_id))
     else:
         return render_template('editItem.html',
                                editItem=editItem, categories=categories,
-                               category=category)
+                               category=category, item_id=item_id, category_id=category_id)
 
 
 if __name__ == '__main__':

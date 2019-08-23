@@ -1,5 +1,5 @@
-
-Movie Recommendation List : By Category
+<div><a href="{{ url_for('showCatalog')}}"><h1>Home</h1></a></div>
+<Header> <h1>Movie Recommendation List : By Category</h1></Header>
 {% block content %}
 
 <div class="container">
@@ -15,12 +15,16 @@ Movie Recommendation List : By Category
     </a>
     {% endfor %}
   </ul>
-  <form >New Category</form>
-  <form >Edit Category</form>
-  <form > Delete Category</form >
   <div class="container-items">
-    <h5>Selected Category: {{ categoryName }}</h5>
+    <h1>Manage Category: {{ categoryName }}</h1>
+    <a href="{{url_for('newCategory')}}">Create new Categories</a><br>
+  <a href="{{url_for('editCategory',category_id=category.id)}}">Edit Category</a><br>
+  <a href="{{url_for('delCategory',category_id=category.id)}}">Delete Category</a><br>
+
   </div>
+  <h3> Movie List for the Category</h3>
+  <a href="{{url_for('newItem')}}"> Add More Recomendation</a><br>
+  
   <ul>
     {% for item in items %}
     <li>
@@ -36,4 +40,6 @@ Movie Recommendation List : By Category
   </ul>
 
   {% endblock %}
+
+
 </div>
