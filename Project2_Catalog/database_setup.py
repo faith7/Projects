@@ -23,15 +23,14 @@ class Category(Base):
     genre = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
-
-
-# return JSON object
-@property
-def serialize(self):
-    return {
-        'id': self.id,
-        'genre': self.name
-    }
+    
+    # return JSON object
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'genre': self.genre
+        }
 
 
 class Item(Base):
@@ -51,18 +50,18 @@ class Item(Base):
     user = relationship(User, backref=backref("user", lazy=True))
     user_id = Column(Integer, ForeignKey('user.id'))
 
-
-# return JSON object
-@property
-def serialize(self):
-    return{
-        'id': self.id,
-        'show': self.show,
-        'title': self.title,
-        'description': self.description,
-        'release': self.release,
-        'img': self.img
-    }
+    # added this serialize function to be able to send JSON objects
+    # in an easily serializable format
+    @property
+    def serialize(self):
+        return{
+            'id': self.id,
+            'show': self.show,
+            'title': self.title,
+            'description': self.description,
+            'release': self.release,
+            'img': self.img
+        }
 
 
 engine = create_engine('sqlite:///itemcatalog.db',

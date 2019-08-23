@@ -1,13 +1,14 @@
-from flask import Flask, render_template, url_for, request, redirect, flash
+from flask import Flask, render_template, url_for, request, redirect, flash, jsonify  # noqa
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Category, Item
+from database_setup import Category, Item, User, Base
 # base, user
 from sqlalchemy import desc
 import urllib.request
 # import io
 import requests
 # from PIL import Image
+import json
 import os
 
 # setting the name of the Flask instance to app
@@ -234,10 +235,38 @@ def editItem(category_id, item_id):
     else:
         return render_template('editItem.html',
                                editItem=editItem, categories=categories,
-                               category=category, item_id=item_id, category_id=category_id)
+                               category=category, item_id=item_id,
+                               category_id=category_id)
+
+####################################
+# JSON END POINT
+####################################
+
+# create JSON endpoint for the catalog
+@app.route('/catalog/JSON')
+def showCatalogJSON():
+    # get all categories
+    categories = session.query(Category).all()
+    return jsonify(categories=[category.serialize
+                               for category in categories])
+
+# create JSON endpoint for all  items the within the specific category
+@app.route('/catalog/<int:category_id>/JSON')
+def showCategoryJSON(category_id):
+    # get all the items within the specific category
+    items = session.query(Item).filter_by(category_id=category_id).all()
+    return jsonify(items=[item.serialize for item in items])
+
+
+# create JSON end point for individual item within a category
+@app.route('/catalog/<int:category_id>/<int:item_id>/JSON')
+def showItemJSON(category_id, item_id):
+    #  find the item in the category
+    item = session.query(Item).filter_by(id=item_id).one()
+    return jsonify(item=[item.serialize])
 
 
 if __name__ == '__main__':
-    # app.debug = True
+    app.debug = True
     app.secret_key = 'super_secret_key'
     app.run(host='0.0.0.0', port=8080)
