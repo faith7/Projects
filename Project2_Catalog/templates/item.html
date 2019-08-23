@@ -1,24 +1,20 @@
-  <body>
-    <div class="row">
+<body>
+  <div class="row">
+    <div>
+      <h3>
+        <span>{{ item.title }}</span>
+      </h3>
       <div>
-        <h3>
-          <span>{{ item.title }}</span>
-        </h3>
-        <div>
-          {{ item.img }} <br>
-          {{ item.show }}<br>
-          {{ item.description }}<br>
-          {{ item.release }}<br>
-        </div>
+        <img
+          src="{{url_for('static', filename='local')}}"
+          alt="Image not found"
+          onerror="this.onerror=null;this.src='https://source.unsplash.com/NodtnCsLdTE/300x300';"
+        />
+        {{ item.show }}<br />
+        {{ item.description }}<br />
+        {{ item.release }}<br />
       </div>
-      <ul> 
-        <!-- {% for category in categories %}
-        <a href="{{ url_for('showCatalog', catalog_id=category.id) }}">
-          <li>
-            <span>{{ category.genre }}</span>
-          </li>
-        </a>
-        {%endfor%} -->
-      </ul>
     </div>
-  </body>
+  </div>
+  <script src="../static/item.js"></script>
+</body>

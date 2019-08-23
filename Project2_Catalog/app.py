@@ -4,7 +4,11 @@ from sqlalchemy.orm import sessionmaker
 from database_setup import Category, Item
 # base, user
 from sqlalchemy import desc
-
+import urllib.request
+# import io
+import requests
+# from PIL import Image
+import os
 
 # setting the name of the Flask instance to app
 app = Flask(__name__)
@@ -20,6 +24,11 @@ session = DBSession()
 # create user function
 # def createUser(login_session)
 
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
+# change to "redis" and restart to cache again
+
+# # some time later
+# cache.init_app(app)
 
 ''' create root route that directs to category url
  shows every category and item available in the system
@@ -34,8 +43,23 @@ def showCatalog():
     categories = session.query(Category).all()
     # retrieve five recently realeased movie/show titles
     item5 = session.query(Item).order_by(Item.release.desc()).limit(5)
+    url = []
+    title = []
+    for item in item5:
+        url.append(item.img)
+        title = item.title
+    with open('static/recent0', 'wb') as f:
+        f.write(urllib.request.urlopen(url[0]).read())
+    with open('static/recent1', 'wb') as f:
+        f.write(urllib.request.urlopen(url[1]).read())
+    with open('static/recent2', 'wb') as f:
+        f.write(urllib.request.urlopen(url[2]).read())
+    with open('static/recent3', 'wb') as f:
+        f.write(urllib.request.urlopen(url[3]).read())
+    with open('static/recent4', 'wb') as f:
+        f.write(urllib.request.urlopen(url[4]).read())
     return render_template('catalog.html', categories=categories,
-                           item5=item5)
+                           item5=item5, title=title)
 
 
 # show items within the specific category
@@ -58,10 +82,15 @@ def showCategory(category_id):
 # show individual item within a category
 @app.route('/catalog/<int:category_id>/<int:item_id>')
 def showItem(category_id, item_id):
+
     # select one category
     category = session.query(Category).filter_by(id=category_id).one()
     #  find the item in the category
     item = session.query(Item).filter_by(id=item_id).one()
+    url = item.img
+
+    with open('static/local', 'wb') as f:
+        f.write(urllib.request.urlopen(url).read())
 
     return render_template('item.html', category=category, item=item)
 
@@ -95,7 +124,8 @@ def newItem():
         description = request.form['description']
         release = request.form['release']
         img = request.form['img']
-
+        if img == '':
+            img = "https://upload.wikimedia.org/wikipedia/commons/4/4f/Black_hole_-_Messier_87_crop_max_res.jpg"  # noqa
         # create item from requested data
         newItem = Item(show=show, title=title, description=description,
                        release=release, img=img, category_id=category)
@@ -204,5 +234,6 @@ def editItem(category_id, item_id):
 
 
 if __name__ == '__main__':
+    app.debug = True
     app.secret_key = 'super_secret_key'
     app.run(host='0.0.0.0', port=8080)

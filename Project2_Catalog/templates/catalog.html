@@ -4,12 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <title>Netflix Recommendation </title>
+    <link rel="stylesheet" href="static/styles.css">
   </head>
   <body>
+    <header>
+      <div>Netflix Recommendation List</div> 
+      <div>Login</div>
+      <div>Logout</div>
+        <button id="myButton"  >Explore More </button>
+        <script type="text/javascript">
+            document.getElementById("myButton").onclick = function () {
+                location.href = "./catalog/1";
+            };
+        </script> 
+    </header>
     <div class="row">
       <div>
-        <h5>Categories List</h5>
+        <h1>Categories List</h1>
       </div>
       <ul>
         {% for category in categories %}
@@ -21,7 +33,7 @@
         {%endfor%}
       </ul>
       <div>
-        <h5>Latest Items</h5>
+        <h1>Latest Recommendation List</h1>
       </div>
       <ul>
         {% for item in item5 %}
@@ -32,7 +44,31 @@
         </a>
         {%endfor%}
       </ul>
+      <img
+      src="{{url_for('static', filename='recent0')}}"
+      alt="Image not found"
+      onerror="this.onerror=null;this.src='https://source.unsplash.com/NodtnCsLdTE/300x300';"
+    />
+    <img
+      src="{{url_for('static', filename='recent1')}}"
+      alt="Image not found"
+      onerror="this.onerror=null;this.src='https://source.unsplash.com/NodtnCsLdTE/300x300';"
+    />
+    <img
+      src="{{url_for('static', filename='recent2')}}"
+      alt="Image not found"
+      onerror="this.onerror=null;this.src='https://source.unsplash.com/NodtnCsLdTE/300x300';"
+    />
+    <img
+      src="{{url_for('static', filename='recent3')}}"
+      alt="Image not found"
+      onerror="this.onerror=null;this.src='https://source.unsplash.com/NodtnCsLdTE/300x300';"
+    />
+    <img
+    src="{{url_for('static', filename='recent4')}}"
+    alt="Image not found"
+    onerror="this.onerror=null;this.src='https://source.unsplash.com/NodtnCsLdTE/300x300';"
+  />
     </div>
-     <button>Explore More!</button>
   </body>
 </html>

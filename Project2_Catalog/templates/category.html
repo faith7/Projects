@@ -1,3 +1,5 @@
+
+Movie Recommendation List : By Category
 {% block content %}
 
 <div class="container">
@@ -13,6 +15,9 @@
     </a>
     {% endfor %}
   </ul>
+  <form >New Category</form>
+  <form >Edit Category</form>
+  <form > Delete Category</form >
   <div class="container-items">
     <h5>Selected Category: {{ categoryName }}</h5>
   </div>
@@ -22,10 +27,13 @@
       <a
         href="{{url_for('showItem', category_id=category.id, item_id=item.id)}}"
       >
+    
         {{ item.title }}
       </a>
+      
       {% endfor %}
     </li>
   </ul>
+
   {% endblock %}
 </div>
