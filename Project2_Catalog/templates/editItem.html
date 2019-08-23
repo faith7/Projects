@@ -15,7 +15,7 @@
         <label> Genre:</label>
         <select name="category" required>
           {% for category in categories %}
-          <option selected value="{{ category.id }}">
+          <option selected value="{{ category.id }}" required>
             {{ category.genre }}
           </option>
           {% endfor %}
@@ -35,8 +35,8 @@
         <label> Poster Url: </label
         ><input type="text" name="img" placeholder="image_url" /><br />
 
-        <button type="submit">Create</button>
-        <a href="{{ url_for('showCategory',category_id=category_id, item_id=editItem.id) }}">Cancel</a>
+        <button type="submit">Update</button>
+        <a href="{{ url_for('showCategory',category_id=category_id, item_id=item_id) }}">Cancel</a>
         <!-- <button type="submit">Cancel</button> -->
       </div>
     </form>

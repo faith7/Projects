@@ -6,15 +6,28 @@
   <div class="container-categories">
     <h5>Categories List</h5>
   </div>
-  <ul>
-    {% for category in categories %}
-    <a href="{{ url_for('showCategory', category_id=category.id) }}">
-      <li>
-        <span>{{ category.genre }}</span>
-      </li>
-    </a>
-    {% endfor %}
-  </ul>
+  <div>
+      <ul>
+          {% for category in categories %}
+          <a href="{{ url_for('showCategory', category_id=category.id) }}">
+            <li>
+              <span>{{ category.genre }}</span>
+            </li>
+          </a>
+          {% endfor %}
+        </ul>  
+  </div>
+  <div>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert {{ category }}"> {{ message|capitalize }} </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+
+  </div>
   <div class="container-items">
     <h1>Manage Category: {{ categoryName }}</h1>
     <a href="{{url_for('newCategory')}}">Create new Categories</a><br>

@@ -24,6 +24,7 @@
         <h1>Categories</h1>
       </div>
       <a href="{{url_for('newCategory')}}">Create More Categories</a><br>
+
       <ul>
         {% for category in categories %}
           <li>
@@ -33,6 +34,13 @@
         </a>
         {%endfor%}
       </ul>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert {{ category }}"> {{ message|capitalize }} </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
       <div>
         <h1>Latest Recommendation</h1>
       </div>
