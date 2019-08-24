@@ -38,9 +38,9 @@ session = DBSession()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
 
 
-#########################
-# Show Category/Item(s)
-#########################
+###############################
+# Show Category(ies)/Item(s)
+###############################
 
 
 # Create root route that directs to category url
@@ -165,9 +165,9 @@ def delCategory(category_id):
         return render_template('delCategory.html', delCategory=delCategory,
                                category_id=category_id)
 
-################
-# Manage Item
-################
+###################
+# Manage an Item
+###################
 
 
 # Create a new item
