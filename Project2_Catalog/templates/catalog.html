@@ -10,8 +10,12 @@
   <body>
     <header>
       <div>Netflix Recommendation List</div> 
-      <div>Login</div>
-      <div>Logout</div>
+      <a href="{{url_for('newItem')}}"> Add More Recomendation</a><br>
+      <body>
+          <a href="{{url_for('showLogin')}}">Login</a>
+          <a href="{{url_for('gdisconnect')}}">Logout</a>
+          
+            
         <button id="myButton"  >Explore More </button>
         <script type="text/javascript">
             document.getElementById("myButton").onclick = function () {

@@ -23,7 +23,7 @@ class Category(Base):
     genre = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
-    
+
     # return JSON object
     @property
     def serialize(self):
