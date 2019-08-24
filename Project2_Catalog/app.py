@@ -21,35 +21,37 @@ from flask import make_response
 import requests
 
 
-# setting the name of the Flask instance to app
+# Setting the name of the Flask instance to app
 app = Flask(__name__)
 
-# connect to database
+# Connect to database
 engine = create_engine('sqlite:///itemcatalog.db',
                        connect_args={'check_same_thread': False}, echo=True)
 
 
-# bind engine with database session
+# Bind engine with database session
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-# to restart to cache again
+# To restart to cache again (to prevent loading the same picture twice)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
 
 
-''' create root route that directs to category url
- shows every category and item available in the system
- with the top five latest list
- '''
+#########################
+# Show Category/Item(s)
+#########################
 
 
+# Create root route that directs to category url
+# Shows every category and item available in the system
+# with the top five latest list
 @app.route('/')
 @app.route('/catalog')
 def showCatalog():
-    # get all categories
+    # Get all categories
     categories = session.query(Category).all()
-    # retrieve five recently realeased movie/show titles
+    # Retrieve five recently realeased movie/show titles
     item5 = session.query(Item).order_by(Item.release.desc()).limit(5)
     url = []
     title = []
@@ -70,16 +72,16 @@ def showCatalog():
                            item5=item5, title=title)
 
 
-# show items within the specific category
+# Show items within the specific category
 @app.route('/catalog/<int:category_id>')
 def showCategory(category_id):
-    # query all the categories
+    # Query all the categories
     categories = session.query(Category).all()
-    # query a specific category
+    # Query a specific category
     category = session.query(Category).filter_by(id=category_id).one()
-    # get name of category
+    # Get name of category
     categoryName = category.genre
-    # get all the items within the specific category
+    # Get all the items within the specific category
     items = session.query(Item).filter_by(category_id=category.id).all()
 
     return render_template('category.html', categories=categories, items=items,
@@ -88,13 +90,13 @@ def showCategory(category_id):
                            )
 
 
-# show individual item within a category
+# Show individual item within a category
 @app.route('/catalog/<int:category_id>/<int:item_id>')
 def showItem(category_id, item_id):
 
-    # select one category
+    # Select one category
     category = session.query(Category).filter_by(id=category_id).one()
-    #  find the item in the category
+    # Find the item in the category
     item = session.query(Item).filter_by(id=item_id).one()
     url = item.img
 
@@ -105,10 +107,16 @@ def showItem(category_id, item_id):
                            category_id=category_id, item_id=item_id)
 
 
-# create new category
+######################
+# Manage a Category
+######################
+
+
+# Create new category
 @app.route('/catalog/new', methods=['GET', 'POST'])
 def newCategory():
-
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     if request.method == 'POST':
         genre = request.form['genre']
         newCategory = Category(genre=genre)
@@ -121,39 +129,13 @@ def newCategory():
         return render_template('newCategory.html')
 
 
-# create a new item
-@app.route('/catalog/newItem', methods=['GET', 'POST'])
-def newItem():
-
-    if request.method == 'POST':
-        # request form data from brower
-        show = request.form['show']
-        category = request.form['category']
-        category = int(category)
-        title = request.form['title']
-        description = request.form['description']
-        release = request.form['release']
-        img = request.form['img']
-        if img == '':
-            img = "https://upload.wikimedia.org/wikipedia/commons/4/4f/Black_hole_-_Messier_87_crop_max_res.jpg"  # noqa
-        # create item from requested data
-        newItem = Item(show=show, title=title, description=description,
-                       release=release, img=img, category_id=category)
-
-        session.add(newItem)
-        session.commit()
-
-        flash("You just created a new Item!")
-        return redirect(url_for('showCatalog'))
-    else:
-        categories = session.query(Category).all()
-        return render_template('newItem.html', categories=categories)
-
-
-# edit a category
+# Edit a category
 @app.route('/catalog/<int:category_id>/edit/', methods=['GET', 'POST'])
 def editCategory(category_id):
     editCat = session.query(Category).filter_by(id=category_id).one()
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
+
     if request.method == 'POST':
         if request.form['genre'] == '':
             editCat.genre = editCat.genre
@@ -168,10 +150,12 @@ def editCategory(category_id):
                                editCat=editCat, category_id=category_id)
 
 
-# delete a category
+# Delete a category
 @app.route('/catalog/<int:category_id>/delete/', methods=['GET', 'POST'])
 def delCategory(category_id):
     delCategory = session.query(Category).filter_by(id=category_id).one()
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     if request.method == 'POST':
         session.delete(delCategory)
         session.commit()
@@ -181,29 +165,50 @@ def delCategory(category_id):
         return render_template('delCategory.html', delCategory=delCategory,
                                category_id=category_id)
 
+################
+# Manage Item
+################
 
-# delete an item
-@app.route('/catalog/<int:category_id>/<int:item_id>/delete/',
-           methods=['GET', 'POST'])
-def delItem(category_id, item_id):
-    delItem = session.query(Item).filter_by(id=item_id).one()
+
+# Create a new item
+@app.route('/catalog/newItem', methods=['GET', 'POST'])
+def newItem():
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     if request.method == 'POST':
-        session.delete(delItem)
+        # request form data from brower
+        show = request.form['show']
+        category = request.form['category']
+        category = int(category)
+        title = request.form['title']
+        description = request.form['description']
+        release = request.form['release']
+        img = request.form['img']
+        if img == '':
+            img = "https://upload.wikimedia.org/wikipedia/commons/4/4f/Black_hole_-_Messier_87_crop_max_res.jpg"  # noqa
+        # Create item from requested data
+        newItem = Item(show=show, title=title, description=description,
+                       release=release, img=img, category_id=category)
+
+        session.add(newItem)
         session.commit()
-        flash("You deleted the item successfully")
+
+        flash("You just created a new Item!")
         return redirect(url_for('showCatalog'))
     else:
-        return render_template('delItem.html', category_id=category_id,
-                               item_id=item_id, delItem=delItem)
+        categories = session.query(Category).all()
+        return render_template('newItem.html', categories=categories)
 
 
-# edit an item
+# Edit an item
 @app.route('/catalog/<int:category_id>/<int:item_id>/edit/',
            methods=['GET', 'POST'])
 def editItem(category_id, item_id):
     categories = session.query(Category).all()
     category = session.query(Category).filter_by(id=category_id).one()
     editItem = session.query(Item).filter_by(id=item_id).one()
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     if request.method == 'POST':
         if request.form['show'] == '':
             editItem.show = editItem.show
@@ -245,32 +250,50 @@ def editItem(category_id, item_id):
                                category=category, item_id=item_id,
                                category_id=category_id)
 
-####################################
+
+# Delete an item
+@app.route('/catalog/<int:category_id>/<int:item_id>/delete/',
+           methods=['GET', 'POST'])
+def delItem(category_id, item_id):
+    delItem = session.query(Item).filter_by(id=item_id).one()
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
+    if request.method == 'POST':
+        session.delete(delItem)
+        session.commit()
+        flash("You deleted the item successfully")
+        return redirect(url_for('showCatalog'))
+    else:
+        return render_template('delItem.html', category_id=category_id,
+                               item_id=item_id, delItem=delItem)
+
+
+####################
 # JSON END POINT
-####################################
+####################
 
 
-# create JSON endpoint for the catalog
+# Create JSON endpoint for the catalog
 @app.route('/catalog/JSON')
 def showCatalogJSON():
-    # get all categories
+    # Get all categories
     categories = session.query(Category).all()
     return jsonify(categories=[category.serialize
                                for category in categories])
 
 
-# create JSON endpoint for all  items the within the specific category
+# Create JSON endpoint for all  items the within the specific category
 @app.route('/catalog/<int:category_id>/JSON')
 def showCategoryJSON(category_id):
-    # get all the items within the specific category
+    # Get all the items within the specific category
     items = session.query(Item).filter_by(category_id=category_id).all()
     return jsonify(items=[item.serialize for item in items])
 
 
-# create JSON end point for individual item within a category
+# Create JSON end point for individual item within a category
 @app.route('/catalog/<int:category_id>/<int:item_id>/JSON')
 def showItemJSON(category_id, item_id):
-    #  find the item in the category
+    # Find the item in the category
     item = session.query(Item).filter_by(id=item_id).one()
     return jsonify(item=[item.serialize])
 
@@ -282,7 +305,7 @@ def showItemJSON(category_id, item_id):
 
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "Restaurant Menu Application"
+APPLICATION_NAME = "Netflix Recomendation Application"
 
 
 # Create anti-forgery state token
@@ -295,6 +318,7 @@ def showLogin():
     return render_template('login.html', STATE=state)
 
 
+# Connect to server
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     # Validate state token
@@ -347,8 +371,8 @@ def gconnect():
     stored_access_token = login_session.get('access_token')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_access_token is not None and gplus_id == stored_gplus_id:
-        response = make_response(json.dumps('Current user is already connected.'),
-                                 200)
+        response = make_response
+        (json.dumps('Current user is already connected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -373,10 +397,14 @@ def gconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += '''style = "width: 300px;
+                 height: 300px;border-radius: 150px;
+                -webkit-border-radius: 150px;
+                -moz-border-radius: 150px;" >'''
     flash("you are now logged in as %s" % login_session['username'])
     print("done!")
     return output
+
 
 # DISCONNECT - Revoke a current user's token and reset their login_session
 @app.route('/logout')
@@ -384,13 +412,14 @@ def gdisconnect():
     access_token = login_session.get('access_token')
     if access_token is None:
         print('Access Token is None')
-        response = make_response(json.dumps('Current user not connected.'), 401)
+        response = make_response(json.dumps(
+            'Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
     print('In gdisconnect access token is %s', access_token)
     print('User name is: ')
     print(login_session['username'])
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']  # noqa
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
     print('result is ')
@@ -405,10 +434,12 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     else:
-        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
+        response = make_response(json.dumps(
+            'Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
-    
+
+
 if __name__ == '__main__':
     app.debug = True
     app.secret_key = 'super_secret_key'

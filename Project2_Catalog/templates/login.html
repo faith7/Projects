@@ -2,26 +2,23 @@
 <!--You just need to update this in login.html page for Udacity's Full Stack nanodegree  -->
 <!-- Below is the Google link I used for reference -->
 <!-- https://developers.google.com/identity/sign-in/web/server-side-flow -->
-
-
 <header>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script type='text/javascript' src='../config.js'></script>
-        <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
-       
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src='config.js'></script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>   
 </header>
 <body>
 <script>
+
   function start() {
     gapi.load('auth2', function() {
       auth2 = gapi.auth2.init({
-        client_id: CLIENT_ID_HERE
+        client_id: "65853107690-i77pj73t6p2tn9a584gneetn1ors5vcp.apps.googleusercontent.com"
       });
     });
   }
 </script>
 
-<body>
 <button id="signinButton">Google Signin</button>
 <div id="result"></div>
 
@@ -55,4 +52,5 @@
     auth2.grantOfflineAccess().then(signInCallback);
   });
 </script>
+
 </body>
