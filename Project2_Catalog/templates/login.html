@@ -9,7 +9,6 @@
 </header>
 <body>
 <script>
-
   function start() {
     gapi.load('auth2', function() {
       auth2 = gapi.auth2.init({
@@ -37,7 +36,7 @@
           success:function(result){
             $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
                  setTimeout(function() {
-                  window.location.href = "http://localhost:5000/catalog";
+                  window.location.href = "/catalog";
                  }, 2000);
           },
           processData:false,

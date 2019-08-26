@@ -1,0 +1,82 @@
+body {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family:"Lexend Deca";
+}
+.jumbotron {
+  background:  linear-gradient(
+    rgba(252, 249, 249, 0.45), 
+    rgba(248, 248, 248, 0.856)
+  ), url(https://source.unsplash.com/jtmwD4i4v1U/1200x800);
+  
+  /* jtmwD4i4v1U */
+  /* background:rgba(255,255,255,0.5); */
+  
+  background: cover, no-repeat top right;
+  background-size:100%;
+}
+
+.jumbotron .container{
+ height: 80%;
+}
+.nav-item .login{
+  display: flexbox;
+  justify-content: space-around;
+  margin: 0 10% 0 0;
+  font:1.5rem;
+} 
+
+body{
+  background-color: rgb(233, 217, 248, 0.5);
+}
+.navbar{
+  height: 10%;
+}
+.navbar-brand{
+  padding:5%;
+  font-size:1.5rem;
+}
+.fa-film{
+ padding-right: 10px;
+}
+
+.jumbotron-header{
+ margin-top: 10%;
+}
+.createmore{
+  font-size: 1.2rem;
+  margin-top: 5%;
+}
+.exploremore{
+  align:right;
+}
+
+main > .latest-header{
+  margin-top:-7%;
+  text-align:center;
+  font:"Permanent Marker";
+  background:burlywood;
+}
+.carousel-item img {
+  width: auto;
+  height: 500px;
+  max-height: 500px;
+}
+.carousel-control .icon-prev, .carousel-control .icon-next {
+  font-size: 100px; 
+  margin-top: 50px;
+  color:black;
+}
+/* 
+.carousel-multi-item-2 .card img {
+  border-radius: 2px;
+}
+

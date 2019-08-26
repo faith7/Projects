@@ -57,7 +57,7 @@ def showCatalog():
     title = []
     for item in item5:
         url.append(item.img)
-        title = item.title
+        title.append(item.title)
     with open('static/recent0', 'wb') as f:
         f.write(urllib.request.urlopen(url[0]).read())
     with open('static/recent1', 'wb') as f:
