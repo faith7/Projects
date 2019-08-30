@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+  <!-- google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lexend+Deca&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Anton&display=swap" rel="stylesheet">
+  <!-- font awesome cdn  -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Gayathri&display=swap" rel="stylesheet">
+
+  
+  <!-- bootstrap starter template  -->
+  <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link href="../static/style.css" rel="stylesheet">
+
+  <title>Netflix Managment APP</title>
+
+</head>
+
+<!-- <nav class="navbar navbar-inverse bg-dark">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{{ url_for('showCatalog')}}"><i class="fa fa-film fa-1.5x" aria-hidden="true"></i>Netflix Management App</a></a>
+      </div>
+      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </nav>-->
+
+<body> 
+
+  <nav class="navbar navbar-expand-md bg-dark fixed-top">
+      <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('showCatalog')}}"><i class="fa fa-film fa-1.5x" aria-hidden="true"></i>Netflix Management App</a>
+
+    <!-- <div class="collapse navbar-collapse" id="navbarsExampleDefault"> -->
+      <ul class="nav navbar-nav navbar-right">
+      <form class="form-inline my-2 my-lg-0 logging">
+       <li> <a class="btn btn-outline-primary nav-item login" href="{{url_for('showLogin')}}" role="button"><i class="fa fa-sign-in"></i>LOG IN</a> </li>
+        <li><a class="btn btn-outline-primary nav-item logout" href="{{url_for('gdisconnect')}}" role="button"><i class="fa fa-sign-out"></i>LOG OUT</a></li>
+      </form>
+    </ul>
+  </div>
+  </nav>
+  {%block content%}
+  {%endblock %}  
+</body> 
+

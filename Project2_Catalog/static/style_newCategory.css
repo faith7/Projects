@@ -1,0 +1,18 @@
+body {
+  margin-top: 50%;
+}
+
+form {
+  margin: 0 auto;
+  width: 80%;
+}
+
+form > h4, span {
+  color: green;
+}
+
+@media (min-width: 992px) { 
+  body{
+    margin-top:10%;
+  }
+}

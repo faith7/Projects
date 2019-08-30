@@ -309,7 +309,7 @@ APPLICATION_NAME = "Netflix Recomendation Application"
 
 
 # Create anti-forgery state token
-@app.route('/login')
+@app.route('/login/')
 def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in range(32))
@@ -335,8 +335,7 @@ def gconnect():
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
-        response = make_response(
-            json.dumps('Failed to upgrade the authorization code.'), 401)
+        response = make_response(json.dumps('Failed to upgrade the authorization code.'), 401)  # noqa
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -391,21 +390,21 @@ def gconnect():
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
+    flash("you are now logged in as %s" % login_session['username'])
     output = ''
-    output += '<h1>Welcome, '
+    output += '<h1><br><br><br>Welcome, '
     output += login_session['username']
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += '''style = "width: 300px;
-                 height: 300px;border-radius: 150px;
+    output += '''style = "margin-top:20%; 
+                 width: 100px;
+                 height: 100px;
+                 border-radius: 15px;
                 -webkit-border-radius: 150px;
-                -moz-border-radius: 150px;" >'''
-    flash("you are now logged in as %s" % login_session['username'])
-    print("done!")
+                -moz-border-radius: 150px;" ><br>'''
     return output
-
-
+    
 # DISCONNECT - Revoke a current user's token and reset their login_session
 @app.route('/logout')
 def gdisconnect():
@@ -430,9 +429,12 @@ def gdisconnect():
         del login_session['username']
         del login_session['email']
         del login_session['picture']
-        response = make_response(json.dumps('Successfully disconnected.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
+        # response = make_response(json.dumps('Successfully disconnected.'), 200)
+        # # response=make_response(render_template('logout.html'),200)
+        # response.headers['Content-Type'] = 'application/json'
+        # return response
+        return render_template("logout.html")
+        
     else:
         response = make_response(json.dumps(
             'Failed to revoke token for given user.', 400))

@@ -1,0 +1,41 @@
+body{
+  /* height:100%;;
+  width:100%; */
+  margin: 0 auto;
+  margin-top:0%;
+  background: linear-gradient(rgba(252, 249, 249, 0.45),
+  rgba(248, 248, 248, 0.856));
+  display:flex;
+  background:url(https://source.unsplash.com/fpZZEV0uQwA);
+  background-size:cover;
+background-repeat: no-repeat;
+height:100vh;
+}
+
+/* Medium devices (tablets, 768px and up) */
+/* @media (min-width: 768px) { 
+  body{
+    height:100%;
+    width:100%;
+    margin: 0 auto;
+    background-size: cover no-repeat center;
+    display:flex;
+    background:url(https://source.unsplash.com/fpZZEV0uQwA));
+    background-size:cover;
+  }
+} */
+
+/* background: linear-gradient(rgba(252, 249, 249, 0.45), */
+/* rgba(248, 248, 248, 0.856)), */
+
+#signinButton{
+
+  margin-left:30%;
+  padding:1rem;
+  font:3rem;
+  border-radius: 10px;
+  background-color: red;
+  color:darkblue;
+  font-weight: bolder;
+  background:url(https://source.unsplash.com/fpZZEV0uQwA);
+}

@@ -1,7 +1,8 @@
-
+{% extends 'header.html'%}
+{% block content%}
 <form method="POST">
     <p>Are you sure to delete {{delItem.title}}? </p>
 <input type="submit" value="DELETE">
 <a href="{{ url_for('showCatalog') }}">CANCEL</button>
 </form>
-
+{%endblock%}

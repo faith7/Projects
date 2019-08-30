@@ -1,32 +1,38 @@
-<body>
-  <div class="row">
-    <div>
-      <h3>
-        Title: {{ item.title }}</span><br>
-      </h3>
-      <div>
-        <img
-          src="{{url_for('static', filename='local')}}"
-          alt="Image not found"
-          onerror="this.onerror=null;this.src='https://source.unsplash.com/NodtnCsLdTE/300x300';"
-        />
-      </div><br>
-      </div>
-      <div>
-        <div>
-          <a href="{{url_for('newItem')}}">Create New Item</a><br>
-          <a href="{{url_for('editItem',  category_id=category.id, item_id=item_id)}}">Edit Item</a><br>
-          <a href="{{url_for('delItem',category_id=category_id, item_id=item_id)}}">Delete Item</a><br>
-        </div>
-      </div>
-              </div>
-  </div>
-  <button onclick="goBack()">Go Back</button>
+{% extends 'header.html' %}
+{% block content %}
+<link rel="stylesheet" href="../static/item.css">
+  <div class="container"> 
+    <div class="inside-container" style="height:330px; margin-top:2rem;">
+        <br>
+      <img class="mh-100 mx-auto d-block" style="margin-top:3rem; width: 40%; height: 100%;" src="{{url_for('static', filename='local')}}"
+        alt="Image not found" onerror="this.onerror=null;this.src='https://source.unsplash.com/NodtnCsLdTE/300x300';" />
+      <div class="item-manage" style="height: 45vh; margin-top:1rem; text-align: center">
+        <a type="button" class="btn btn-sm btn-outline-primary" href="{{url_for('newItem')}}"> New</a>
+        <a type="button" class="btn btn-sm btn-outline-primary"
+          href="{{url_for('editItem',  category_id=category.id, item_id=item_id)}}"> Edit</a>
+        <a type="button" class="btn btn-sm btn-outline-primary"
+          href="{{url_for('delItem',category_id=category_id, item_id=item_id)}}"> Delete</a>
+        <a type="button" class="btn btn-sm btn-outline-primary" onclick="goBack()">Go Back</a>
 
-  <script>
-  function goBack() {
-    window.history.back();
-  }
-  </script>
-  <script src="../static/item.js"></script>
-</body>
+        <script>
+          function goBack() {
+            window.history.back();
+          }
+        </script>
+        </div>
+        </div>
+      </div><!-- end of go-back  -->
+      <div class="container-flash">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert {{ category }}"> {{ message|capitalize }} </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+<!-- end of item-manage  -->
+
+</div>
+    {%endblock%}

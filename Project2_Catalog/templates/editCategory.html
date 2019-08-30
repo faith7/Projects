@@ -1,12 +1,32 @@
-<div class="container">
-  <div class="container-newCategory">
-    <h5>Please Edit your category</h5>
-    <form method="POST">
-      <div class="form">
-        <label> Category: </label>
-        <input type="text" name="genre" placeholder="Type a new category" />
-      </div>
-      <button type="submit">Update</button>
-      <a href="{{ url_for('showCategory',category_id=category_id) }}">Cancel</a> -->
+{% extends 'header.html'%}
+{% block content%}
+<link rel="stylesheet" href="../static/style_editCategory.css">
+<!-- 
+<form method="POST">
+    <h4> Please <span class="update" >Update</span> a new category.</h4>
+  <hr>
+    <div class="form-group">
+      <label for="categoryName"> Edit Category <i class="fa fa-1.5x fa-pencil-square-o"></i>: </label>
+      <input type="text" class="form-control" name="genre" id="categoryName"  placeholder="Update the category">
+    </div>
    
+    <button type="submit" class="btn btn-primary">Edit</button>
+    <a href="{{ url_for('showCategory', category_id=category_id) }}">CANCEL</button>
+  </form> -->
+  
+
+  <form method="POST">
+      <h4> Please <span class="update" >Update</span> the category.</h4>
+      <div class="form-group">
+          <hr>
+          <label for="categoryName"> Edit Category <i class="fa fa-1.5x fa-pencil-square-o"></i>: </label>
+          <input type="text" class="form-control" name="genre" id="categoryName"  placeholder="Update the category">
+      <button type="submit" class="btn btn-primary">Edit</button>
+      <a href="{{ url_for('showCategory', category_id=category_id) }}">CANCEL</button>
+      </div>
     </form>
+{% endblock %}
+  </body>
+
+
+

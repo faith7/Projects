@@ -1,6 +1,24 @@
-{% block content %}
+{% extends 'header.html'%}
+{% block content%}
 
-<div class="container">
+<link rel="stylesheet" href="../static/style_newCategory.css">
+
+<form method="POST">
+    <h4> Please <span class="create" >create a new category.</span></h4>
+  <hr>
+    <div class="form-group">
+      <label for="categoryName">NEW Category <i class="fa fa-1.5x fa-plus-circle"></i>: </label>
+      <input type="text" class="form-control" name="genre" placeholder="Type a new category">
+    </div>
+   
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a href="{{ url_for('showCategory', category_id=1) }}">CANCEL</button>
+  </form>
+  
+{% endblock %}
+
+
+<!-- <div class="container">
   <div class="container-newCategory">
     <h5>Please insert a new category</h5>
     <form method="POST">
@@ -8,18 +26,13 @@
         <label>New Category: </label>
         <input type="text" name="genre" placeholder="Type a new category" />
       </div>
-      <button type="submit">Create</button>
+      <button type="submit">Create</button> -->
 
       <!-- <a href="{{ url_for('showCategory',category_id=1) }}">Cancel</a>  -->
-      <button onclick="goBack()">Go Back</button>    
-      <script>
-      function goBack() {
-        window.history.back();
-      }
-      </script>
-    </form>
+     
      <!-- <button type="submit">Cancel</button>
   </div>
 </div>
 
-{% endblock %}
+-->
+ 
