@@ -2,13 +2,10 @@
 {% block content%}
 <div class="jumbotron">
   <div class="container">
-    <!-- <div class="row"> -->
-    <!-- <div class= "col-4 left-side"> -->
-    <!-- <h1 class="display-4">Hello!</h1> -->
-    
+    <br>
     <p class="lead"> Categories</p>
     <hr class="my-4">
-    <p class="explain"> A simple App to manage your favoriate netflix movies/shows </p>
+    <p class="explain"> A simple app to manage your favoriate netflix movies/shows </p>
     <div class="jumbotron-categories">
       <ul>
         {% for category in categories %}
@@ -20,18 +17,16 @@
         {%endfor%}
       </ul>
       <a class="btn btn-primary btn-lg" id="explore" href="#" role="button">Explore More</a>
-  <script type="text/javascript">
-    document.getElementById("explore").onclick = function () {
-      location.href = "./catalog/1";
-    };
-  </script>
+      <script type="text/javascript">
+        document.getElementById("explore").onclick = function () {
+          location.href = "./catalog/1";
+        };
+      </script>
     </div>
-  </div> 
+  </div>
   <br>
   <!-- end of lead  -->
-    <!-- <a class="btn btn-primary btn-lg" style="width:70%" id="explore" href="#" role="button">Explore more</a> -->
 
-  <!-- <div class=" col-7 offset-col-4 right-side"> -->
   <div class="card card-body bg-light">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -41,7 +36,7 @@
         <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
       </ol>
-      <p class="lead lead2"><i class="fa fa-star-o"></i> Latest</p>
+      <p class="lead2"><i class="fa fa-star-o"></i> Latest</p>
       <div class="carousel-inner">
         <div class="carousel-item active">
           <img class="d-block w-100" src="{{url_for('static', filename='recent0')}}"
@@ -111,4 +106,5 @@
 </script>
 {%endblock%}
 </body>
+
 </html>

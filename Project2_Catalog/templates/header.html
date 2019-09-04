@@ -16,7 +16,7 @@
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Gayathri&display=swap" rel="stylesheet">
 
-  
+
   <!-- bootstrap starter template  -->
   <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
 
@@ -25,8 +25,190 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <!-- Custom styles for this template -->
-  <link href="../static/style.css" rel="stylesheet">
+  <!-- <link href="../static/style.css" rel="stylesheet"> -->
 
+  <style>
+    /* apply a natural box layout model to all elements, but allowing components to change */
+    html {
+      box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    html {
+      margin: auto;
+    }
+
+    body {
+      font-family: "Lexend Deca";
+      height: 100%;
+
+    }
+
+    .navbar {
+      margin-bottom: 0.7rem;
+      overflow-wrap: break-word !important;
+      /* min-height: 10% !important; */
+      display: flex;
+    }
+
+    .navbar-brand {
+      margin-left: 2%;
+      font-size: 1.5rem;
+      color: white
+    }
+
+    .logging {
+      justify-items: flex-end;
+      margin-left: -2%;
+      margin-right: 7%;
+    }
+
+    .login {
+      padding-right: 1.5rem;
+    }
+
+    .fa-sign-in {
+      padding-right: 1rem;
+    }
+
+    .fa-sign-out {
+      padding-right: 1rem;
+    }
+
+    .fa-film {
+      padding-right: 10px;
+    }
+
+    .jumbotron {
+      background: linear-gradient(rgba(252, 249, 249, 0.45),
+          rgba(248, 248, 248, 0.856)), url(https://source.unsplash.com/jtmwD4i4v1U/1200x800);
+      background-size: cover;
+      height: 100%;
+      margin-bottom: 0%;
+    }
+
+    .container {
+      padding-top: 120px;
+    }
+
+    .jumbotron-categories {
+      color: blue;
+      padding-right: 2rem;
+      font-size: 1rem;
+      height: 50%;
+      text-align: cent34;
+    }
+
+    #explore {
+      width: 100%;
+    }
+
+    .lead {
+      margin-bottom: -1rem;
+      font-size: 1.5rem;
+      margin-left: 20%;
+    }
+
+    .lead2 {
+      margin-top: -1%;
+      padding-top: 1%;
+      color: rgb(29, 29, 36);
+      letter-spacing: 1px;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .card-body {
+      background: blue;
+    }
+
+    .right-side {
+      margin-top: 5%;
+      margin-right: 0;
+      margin-left: 7%;
+    }
+
+    .carousel-item img {
+      width: auto;
+      height: 220px;
+      max-height: 220px;
+    }
+
+    .carousel-control .icon-prev,
+    .carousel-control .icon-next {
+      font-size: 100px;
+      margin-top: 50px;
+      color: black;
+    }
+
+
+    @media (min-width: 992px) {
+      .container>p {
+        margin-left: 3rem;
+      }
+
+      .jumbotron-categories {
+        color: blue;
+        margin-left: 5rem;
+        padding-right: 2rem;
+        font-size: 1rem;
+        height: 50%;
+      }
+
+
+      .lead {
+        margin-top: 0%;
+        margin-left: 15%;
+      }
+
+      #explore {
+        margin-left: 40rem;
+        margin-top: -15rem;
+        width: 30%;
+      }
+
+      .carousel-item img {
+        width: auto;
+        height: 500px;
+        max-height: 500px;
+      }
+
+      .card {
+        width: 70%;
+        margin-left: 17%;
+        color: rgb(207, 207, 233);
+      }
+
+      .lead2 {
+        margin-top: -3%;
+        padding-top: 1%;
+        color: rgb(21, 21, 54);
+
+      }
+
+      .lead2::after {
+        content: '  movies/shows';
+      }
+
+      .navbar-brand {
+        margin-left: 5%;
+      }
+
+      .logging {
+        margin-right: 0;
+      }
+
+      .container {
+        padding-top: 0%;
+        /* margin-left:20%; */
+      }
+    }
+  </style>
   <title>Netflix Managment APP</title>
 
 </head>
@@ -44,22 +226,24 @@
     </div>
   </nav>-->
 
-<body> 
+<body>
 
   <nav class="navbar navbar-expand-md bg-dark fixed-top">
-      <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url_for('showCatalog')}}"><i class="fa fa-film fa-1.5x" aria-hidden="true"></i>Netflix Management App</a>
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('showCatalog')}}"><i class="fa fa-film fa-1.5x"
+          aria-hidden="true"></i>Netflix Management App</a>
 
-    <!-- <div class="collapse navbar-collapse" id="navbarsExampleDefault"> -->
+      <!-- <div class="collapse navbar-collapse" id="navbarsExampleDefault"> -->
       <ul class="nav navbar-nav navbar-right">
-      <form class="form-inline my-2 my-lg-0 logging">
-       <li> <a class="btn btn-outline-primary nav-item login" href="{{url_for('showLogin')}}" role="button"><i class="fa fa-sign-in"></i>LOG IN</a> </li>
-        <li><a class="btn btn-outline-primary nav-item logout" href="{{url_for('gdisconnect')}}" role="button"><i class="fa fa-sign-out"></i>LOG OUT</a></li>
-      </form>
-    </ul>
-  </div>
+        <form class="form-inline my-2 my-lg-0 logging">
+          <li> <a class="btn btn-outline-primary nav-item login" href="{{url_for('showLogin')}}" role="button"><i
+                class="fa fa-sign-in"></i>LOG IN</a> </li>
+          <li><a class="btn btn-outline-primary nav-item logout" href="{{url_for('gdisconnect')}}" role="button"><i
+                class="fa fa-sign-out"></i>LOG OUT</a></li>
+        </form>
+      </ul>
+    </div>
   </nav>
   {%block content%}
-  {%endblock %}  
-</body> 
-
+  {%endblock %}
+</body>

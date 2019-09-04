@@ -8,23 +8,26 @@ body {
   margin-top: 5rem;
   height: 110vh;
 }
-.row{
-  margin-left:2rem;
-}
-.category-manager{
-  margin-left:4rem;
-}
-.fa-lock{
- padding-left:2rem;
-  margin-right:2rem;
+
+.row {
+  margin-left: 2rem;
 }
 
-.select-header{
-  margin-left:2rem;
+.category-manager {
+  margin-left: 4rem;
+}
+
+.fa-lock {
+  padding-left: 2rem;
+  margin-right: 2rem;
+}
+
+.select-header {
+  margin-left: 2rem;
 }
 
 .container img {
-  margin:  auto;
+  margin: auto;
 }
 
 
@@ -34,14 +37,15 @@ body {
 
 @media(min-width: 992px) {
 
-  .row{
-    margin-left:0;
+  .row {
+    margin-left: 0;
   }
+
   body {
     background: url(https://source.unsplash.com/16Tu8S18pu4/1200x800);
     background-size: cover;
     margin-top: 5rem;
-    margin-bottom:-5rem;
+    margin-bottom: -5rem;
   }
 }
 
@@ -52,11 +56,11 @@ body {
 
 .admin-lock {
   margin-bottom: 2rem;
-  margin-left: 1rem;
+  margin-left: -4rem;
 }
 
 .fa-lock {
-  padding-left:2rem;
+  padding-left: 2rem;
   margin-left: 3rem;
 }
 

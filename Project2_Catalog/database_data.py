@@ -22,36 +22,35 @@ DBsession = sessionmaker(bind=engine)
 session = DBsession()
 
 # create random user
-user1 = User(name="Robert Jr.", email="robert@udacity.com",
-             profile_pic="https://randomuser.me/")
+user1 = User(name="G", email="ycstudy2012@gmail.com")
 session.add(user1)
 session.commit()
 
 # create categories for the catalog
-cat1 = Category(genre="Action")
+cat1 = Category(user_id=1, genre="Action")
 session.add(cat1)
 session.commit()
 
-cat2 = Category(genre="Comedy")
+cat2 = Category(user_id=1, genre="Comedy")
 session.add(cat2)
 session.commit()
 
-cat3 = Category(genre="Crime")
+cat3 = Category(user_id=1, genre="Crime")
 session.add(cat3)
 session.commit()
 
-cat4 = Category(genre="Horror")
+cat4 = Category(user_id=1, genre="Horror")
 session.add(cat4)
 session.commit()
 
-cat5 = Category(genre="Thriller")
+cat5 = Category(user_id=1, genre="Thriller")
 session.add(cat5)
 session.commit()
 
 '''create items for the catalog
 For current show, release year is set to current year
 For finished show, relase year is set to season finished year'''
-item1 = Item(show="movie", title="Avengers:End game",
+item1 = Item(user_id=1, show="movie", title="Avengers:End game",
              description='''part of avengers series. Hero movies.
              Check other Marvel's movies''',
              release="2019",
@@ -62,7 +61,7 @@ item1 = Item(show="movie", title="Avengers:End game",
 session.add(item1)
 session.commit()
 
-item2 = Item(show="movie", title="Batman begins",
+item2 = Item(user_id=1, show="movie", title="Batman begins",
              description="Background of batman. Recommend all series..",
              release="2015",
              category=cat1,
@@ -71,7 +70,7 @@ item2 = Item(show="movie", title="Batman begins",
 session.add(item2)
 session.commit()
 
-item3 = Item(show="show", title="Park and recreation",
+item3 = Item(user_id=1, show="show", title="Park and recreation",
              description="Sitcome..American politcal satire",
              release="2015",
              category=cat2,
@@ -79,7 +78,7 @@ item3 = Item(show="show", title="Park and recreation",
 session.add(item3)
 session.commit()
 
-item4 = Item(show="movie", title="Luck-key",
+item4 = Item(user_id=1, show="movie", title="Luck-key",
              description="South Korean action comedy film ",
              release="2016",
              category=cat2,
@@ -88,7 +87,7 @@ item4 = Item(show="movie", title="Luck-key",
 session.add(item4)
 session.commit()
 
-item5 = Item(show="show", title="Kim's Convenience",
+item5 = Item(user_id=1, show="show", title="Kim's Convenience",
              description="A sitcome on Canadian Korean convenience story",
              release="2016",
              category=cat2,
@@ -97,7 +96,7 @@ item5 = Item(show="show", title="Kim's Convenience",
 session.add(item5)
 session.commit()
 
-item6 = Item(show="show", title="Breaking bad",
+item6 = Item(user_id=1, show="show", title="Breaking bad",
              description="drug trafficking",
              release="2013",
              category=cat3,
@@ -106,7 +105,7 @@ item6 = Item(show="show", title="Breaking bad",
 session.add(item6)
 session.commit()
 
-item7 = Item(show="show",
+item7 = Item(user_id=1, show="show",
              title="Dead to me",
              description='''A widow whose husband died of hit-and-run accident
              and her friend''',
@@ -117,7 +116,7 @@ item7 = Item(show="show",
 session.add(item7)
 session.commit()
 
-item8 = Item(show="show", title="The Haunting of Hill House",
+item8 = Item(user_id=1, show="show", title="The Haunting of Hill House",
              description="supernational horror drama",
              release="2018",
              category=cat4,
@@ -126,7 +125,7 @@ item8 = Item(show="show", title="The Haunting of Hill House",
 session.add(item8)
 session.commit()
 
-item9 = Item(show="show", title="Walking dead",
+item9 = Item(user_id=1, show="show", title="Walking dead",
              description="zombie & human drama",
              release="2019",
              category=cat4,
@@ -135,7 +134,7 @@ item9 = Item(show="show", title="Walking dead",
 session.add(item9)
 session.commit()
 
-item10 = Item(show="show", title="Stranger things",
+item10 = Item(user_id=1, show="show", title="Stranger things",
               description='''supernatural events occurring
               around fictional town in Indiana''',
               release="2019",
@@ -144,7 +143,7 @@ item10 = Item(show="show", title="Stranger things",
 session.add(item10)
 session.commit()
 
-item11 = Item(show="movie", title="Snowpiercer",
+item11 = Item(user_id=1, show="movie", title="Snowpiercer",
               description="Story about survivors of Earth's second Ice Age",
               release="2013",
               category=cat5,

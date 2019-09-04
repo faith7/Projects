@@ -1,8 +1,32 @@
 {% extends 'header.html'%}
 {% block content%}
-<form method="POST">
-    <p>Are you sure to delete {{delItem.title}}? </p>
-<input type="submit" value="DELETE">
-<a href="{{ url_for('showCatalog') }}">CANCEL</button>
-</form>
+<style>
+    .container {
+        margin-top: 10rem;
+    }
+
+    .delItem {
+        color: green;
+        margin-top: 5rem;
+        margin-left: 3rem;
+        width: 70%;
+    }
+
+    @media (min-width: 768px) {
+        .delItem {
+            color: green;
+            margin-top: 5rem;
+            margin-left: 10rem;
+            width: 80%;
+        }
+    }
+</style>
+<div class="container">
+    <form method="POST" class="delItem">
+        <h5>Are you sure that you want to delete {{delItem.title}}? </h5>
+        <hr>
+        <input type="submit" value="DELETE">
+        <a href="{{ url_for('showCategory', category_id=1) }}">CANCEL</button>
+    </form>
+</div>
 {%endblock%}

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect, flash, jsonify  # noqa
 from flask import session as login_session
+from flask_bootstrap import Bootstrap
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Category, Item, User, Base
@@ -103,8 +104,14 @@ def showItem(category_id, item_id):
     with open('static/local', 'wb') as f:
         f.write(urllib.request.urlopen(url).read())
 
-    return render_template('item.html', category=category, item=item,
-                           category_id=category_id, item_id=item_id)
+    # check if username is in login_session or user is creater
+    if 'username' not in login_session or \
+            item.user_id != login_session['user_id']:
+        return render_template('publicItem.html', category=category, item=item,
+                               category_id=category_id, item_id=item_id)
+    else:
+        return render_template('item.html', category=category, item=item,
+                               category_id=category_id, item_id=item_id)
 
 
 ######################
@@ -117,9 +124,11 @@ def showItem(category_id, item_id):
 def newCategory():
     if 'username' not in login_session:
         return redirect(url_for('showLogin'))
+
     if request.method == 'POST':
         genre = request.form['genre']
-        newCategory = Category(genre=genre)
+        user_id = login_session['user_id']
+        newCategory = Category(genre=genre, user_id=user_id)
         session.add(newCategory)
         session.commit()
 
@@ -134,7 +143,7 @@ def newCategory():
 def editCategory(category_id):
     editCat = session.query(Category).filter_by(id=category_id).one()
     if 'username' not in login_session:
-        return redirect(url_for('showLogin'))
+        return redirect('/login')
 
     if request.method == 'POST':
         if request.form['genre'] == '':
@@ -155,7 +164,7 @@ def editCategory(category_id):
 def delCategory(category_id):
     delCategory = session.query(Category).filter_by(id=category_id).one()
     if 'username' not in login_session:
-        return redirect(url_for('showLogin'))
+        return redirect('/login')
     if request.method == 'POST':
         session.delete(delCategory)
         session.commit()
@@ -174,7 +183,7 @@ def delCategory(category_id):
 @app.route('/catalog/newItem', methods=['GET', 'POST'])
 def newItem():
     if 'username' not in login_session:
-        return redirect(url_for('showLogin'))
+        return redirect('/login')
     if request.method == 'POST':
         # request form data from brower
         show = request.form['show']
@@ -184,11 +193,13 @@ def newItem():
         description = request.form['description']
         release = request.form['release']
         img = request.form['img']
+        user_id = login_session['user_id']
         if img == '':
             img = "https://upload.wikimedia.org/wikipedia/commons/4/4f/Black_hole_-_Messier_87_crop_max_res.jpg"  # noqa
         # Create item from requested data
         newItem = Item(show=show, title=title, description=description,
-                       release=release, img=img, category_id=category)
+                       release=release, img=img, category_id=category,
+                       user_id=user_id)
 
         session.add(newItem)
         session.commit()
@@ -208,7 +219,7 @@ def editItem(category_id, item_id):
     category = session.query(Category).filter_by(id=category_id).one()
     editItem = session.query(Item).filter_by(id=item_id).one()
     if 'username' not in login_session:
-        return redirect(url_for('showLogin'))
+        return redirect('/login')
     if request.method == 'POST':
         if request.form['show'] == '':
             editItem.show = editItem.show
@@ -218,7 +229,7 @@ def editItem(category_id, item_id):
         if request.form['title'] == '':
             editItem.title = editItem.title
         else:
-            editItem.title = editItem.form['title']
+            editItem.title = request.form['title']
 
         if request.form['description'] == '':
             editItem.description = editItem.description
@@ -236,9 +247,9 @@ def editItem(category_id, item_id):
             editItem.img = request.form['img']
 
         if request.form['category'] == '':
-            editItem.category = editItem.category
+            editItem.category_id = editItem.category_id
         else:
-            editItem.category = request.form['category']
+            editItem.category_id = request.form['category']
 
         session.add(editItem)
         session.commit()
@@ -257,7 +268,7 @@ def editItem(category_id, item_id):
 def delItem(category_id, item_id):
     delItem = session.query(Item).filter_by(id=item_id).one()
     if 'username' not in login_session:
-        return redirect(url_for('showLogin'))
+        return redirect('/login')
     if request.method == 'POST':
         session.delete(delItem)
         session.commit()
@@ -297,6 +308,36 @@ def showItemJSON(category_id, item_id):
     item = session.query(Item).filter_by(id=item_id).one()
     return jsonify(item=[item.serialize])
 
+######################################
+# Helper Functions for User
+######################################
+
+# id = Column(Integer, primary_key=True)
+#     name = Column(String)
+#     email = Column(String, nullable=False)
+#     profile_pic = Column(String)
+
+
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session[
+                   'email'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
 
 ######################################
 # LOG IN
@@ -309,7 +350,7 @@ APPLICATION_NAME = "Netflix Recomendation Application"
 
 
 # Create anti-forgery state token
-@app.route('/login/')
+@app.route('/login')
 def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in range(32))
@@ -390,21 +431,29 @@ def gconnect():
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
+    # see if  user exists, if it doesn't make a new one.
+    user_id = getUserID(data['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
+
     flash("you are now logged in as %s" % login_session['username'])
+
     output = ''
     output += '<h1><br><br><br>Welcome, '
     output += login_session['username']
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += '''style = "margin-top:20%; 
+    output += '''style = "margin-top:20%;
                  width: 100px;
                  height: 100px;
                  border-radius: 15px;
                 -webkit-border-radius: 150px;
                 -moz-border-radius: 150px;" ><br>'''
     return output
-    
+
+
 # DISCONNECT - Revoke a current user's token and reset their login_session
 @app.route('/logout')
 def gdisconnect():
@@ -412,7 +461,7 @@ def gdisconnect():
     if access_token is None:
         print('Access Token is None')
         response = make_response(json.dumps(
-            'Current user not connected.'), 401)
+            output), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
     print('In gdisconnect access token is %s', access_token)
@@ -429,15 +478,14 @@ def gdisconnect():
         del login_session['username']
         del login_session['email']
         del login_session['picture']
-        # response = make_response(json.dumps('Successfully disconnected.'), 200)
-        # # response=make_response(render_template('logout.html'),200)
-        # response.headers['Content-Type'] = 'application/json'
-        # return response
-        return render_template("logout.html")
-        
+        response = make_response(json.dumps('Successfully disconnected.'), 200)
+        # response=make_response(render_template('logout.html'),200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+        # return render_template("logout.html")
+
     else:
-        response = make_response(json.dumps(
-            'Failed to revoke token for given user.', 400))
+        response = make_response(json.dumps('Failed to revoke token for given user.', 400))  # noqa
         response.headers['Content-Type'] = 'application/json'
         return response
 

@@ -1,46 +1,51 @@
 {% extends 'header.html'%}
 {% block content%}
+<link rel="stylesheet" href="../static/style_newItem.css">
 <div class="container">
   <div class="container-newCategory">
     <h5>Please insert a new Movie/Show item.</h5>
-    <form action="{{ url_for('newItem') }}" method="POST">
-      <div class="form">
-        <label>New Item: </label> <br />
-        <select name="show">
-          <option selected>show </option>
-          <option>movie</option> </select
-        ><br />
-        <label> Title: </label
-        ><input type="text" name="title" placeholder="title" /><br />
-        <label> Genre:</label>
-        <select name="category">
-          {% for category in categories %}
-          <option selected value="{{ category.id }}">
-            {{ category.genre }}
-          </option>
-          {% endfor %}
-        </select>
-        <label> Description: </label
-        ><input
-          type="textarea"
-          name="description"
-          placeholder="description"
-        /><br />
-        <label> Relased year: </label>
-        <input
-          type="text"
-          name="release"
-          placeholder="YYYY format"
-        /><br />
-        <label> Poster Url: </label
-        ><input type="text" name="img" placeholder="image_url(jpg or png)" /><br />
+    <hr>
+    <div class="messages">
+      <form action="{{ url_for('newItem') }}" method="POST">
+        <div class="form">
+          <label>New Item: </label>
+          <select name="show">
+            <option selected> show </option>
+            <option>movie</option>
+          </select><br>
+          <label class="title"> Title: </label><input type="text" name="title" placeholder="title" /><br>
+          <label> Genre: </label>
+          <select name="category">
+            {% for category in categories %}
+            <option selected value="{{ category.id }}">
+              {{ category.genre }}
+            </option>
+            {% endfor %}
+          </select><br>
+          <label> Description: </label>
+          <input type="textarea" name="description" placeholder="description" /><br />
+          <label> Relased year: </label>
+          <input type="text" name="release" placeholder="YYYY format" /><br />
+          <label> Poster Url: </label>
+          <input type="textarea" name="img" placeholder="image_url(jpg or png)" /><br />
+        </div>
+        <br>
+        <div class="end">
+          <button type="submit">Create</button>
+          <a type="button" class="btn btn-sm btn-outline-primary cancel" onclick="goBack()">Go Back</a>
 
-        <button type="submit">Create</button>
-        <a href="{{ url_for('showCatalog') }}">Cancel</a>
-        <!-- <button type="submit">Cancel</button> -->
-      </div>
+          <script>
+            function goBack() {
+              window.history.back();
+            }
+          </script>
+        </div>
+
+    </div>
     </form>
   </div>
 </div>
+
+
 
 {%endblock%}
