@@ -82,7 +82,7 @@ Please check out the following for further demonstration.
 &nbsp;
 &nbsp;
 ### 4. Public view for items before you sign-in.
-![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/manage_item.gif) 
+![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/item_publicpage.gif) 
 &nbsp;
 &nbsp;
 &nbsp;
