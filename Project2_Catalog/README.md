@@ -64,18 +64,22 @@ Please check out the following for further demonstration.
 &nbsp;
 ## Application demo 
 &nbsp;
+&nbsp;
 ### 1. Browse five latest movies/shows on the first page.
 ![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/first_page.gif) 
+&nbsp;
 &nbsp;
 ### 2. On the second page, log in to manage each categories. 
 ![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/manage_category.gif)
 &nbsp;
+&nbsp;
 ### 3. Manage each item within a specific category.
 ![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/manage_item.gif)
 &nbsp;
+&nbsp;
 ### 4. Public view for each item before you sign-in.
 ![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/manage_item.gif) 
-
+&nbsp;
 &nbsp;
 ## Coding Style Test
  - PEP8 style recommendation is followed for python.
