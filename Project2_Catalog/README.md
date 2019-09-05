@@ -11,7 +11,7 @@ Registered users have the ability to make a **CRUD(create, read, edit and delete
   - Flask framework
   - Restful API
   - OAuth authentication(Google OAuth)
-  - Bootstrap for front end development
+  - Bootstrap for front end development 
 
 &nbsp;
 ## Program Environment Requirements 
@@ -90,6 +90,8 @@ Please check out the following for further demonstration.
  - PEP8 style recommendation is followed for python.
  - Beautify selection is followed for Html/Css/Javascript.
    Downloaded as visual studio code editor extension.
+ - Google chrome devloper is used to test front end in different device sizes.
+   (ex. Galaxy5, iphone, ipad, laptop)
  
 ```sh
 $ pip3 install pycodestyle
