@@ -1,15 +1,22 @@
 # Item Catalog Project
-Item Catalog Project is part of Udacity Full Stack NanoDegree Program. This project is to build an application that  that provides **a list of items within different categories** and provide a user registration and authentication system. Registered users have the ability to make a **CRUD(create, read, edit and delete) operation** on their own items.
 
 
-# Technologies for this project 
+## About this Project
+Item Catalog Project is part of Udacity Full Stack NanoDegree Program. 
+This project is to build an application that  that provides **a list of items within different categories** and provide a user registration and authentication system. 
+Registered users have the ability to make a **CRUD(create, read, edit and delete) operation** on their own items.
+
+
+
+## Technologies for this project 
   - Flask framework
   - Restful API
   - OAuth authentication(Google OAuth)
   - Bootstrap for front end development
 
 
-# Program Environment Requirements 
+
+## Program Environment Requirements 
   - [Python3](https://www.python.org/downloads/)
   - [Linux-based Virtual Machine (VM)](https://www.virtualbox.org/wiki/Download_Old_Builds) 
   - [Virtual Machine Management tool - Vagrant](https://www.vagrantup.com/downloads.html)
@@ -22,7 +29,9 @@ Item Catalog Project is part of Udacity Full Stack NanoDegree Program. This proj
 https://github.com/udacity/fullstack-nanodegree-vm
 
 
-# Run the Program 
+
+
+## Run the Program 
 #### 1. Git clone to download required programs. 
 ``` 
 $ git clone https://github.com/udacity/fullstack-nanodegree-vm
@@ -61,16 +70,17 @@ Please check out the following for further demonstration.
 ![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/first_page.gif) 
 
 2.Manage categories
-![](https://github.com/faith7/Udacity_Projects_FullStack/tree/master/Project2_Catalog/result_view_gif/manage_category.gif)
+![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/manage_category.gif)
 
 3.Manage items
-![](https://github.com/faith7/Udacity_Projects_FullStack/tree/master/Project2_Catalog/result_view_gif/manage_item.gif)
+![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/manage_item.gif)
 
-4.Public item view page before sign-in
-![](https://github.com/faith7/Udacity_Projects_FullStack/tree/master/Project2_Catalog/result_view_gif/item_publicpage.gif) 
+4.Public view for each item before sign-in
+![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/manage_item.gif) 
 
 
-# Coding Style Test
+
+## Coding Style Test
  - PEP8 style recommendation is followed for python.
  - Beautify selection is followed for Html/Css/Javascript.
    Downloaded as visual studio code editor extension.
@@ -99,7 +109,8 @@ $ sudo apt install python3-pip (to install pip)
 ```
 
 
-# Data credits for this project 
+
+## Data credits for this project 
 - Wikipedia/Wikimedia for movie or show urls. 
   Each poster url links can be found in database_data file in this repository.
   Licensing and usage is on the guide provided from each Wikipedia/Wikimedia links.
@@ -115,7 +126,7 @@ $ sudo apt install python3-pip (to install pip)
       https://source.unsplash.com/NodtnCsLdTE
       Mikhail Vasilyev@miklevasilyev
 
-- When user did not provide the image url, the application uses black hole image from 
+- When user did not provide the image url, the application uses black hole image
   https://en.wikipedia.org/wiki/File:Black_hole_-_Messier_87_crop_max_res.jpg
 
 - [screentogif app](https://www.screentogif.com/) for application demo
