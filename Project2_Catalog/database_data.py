@@ -22,7 +22,7 @@ DBsession = sessionmaker(bind=engine)
 session = DBsession()
 
 # create random user
-user1 = User(name="G", email="ycstudy2012@gmail.com")
+user1 = User(name="G", email="faithdevelop@gmail.com")
 session.add(user1)
 session.commit()
 
@@ -91,7 +91,7 @@ item5 = Item(user_id=1, show="show", title="Kim's Convenience",
              description="A sitcome on Canadian Korean convenience story",
              release="2016",
              category=cat2,
-             img="https://upload.wikimedia.org/wikipedia/en/b/b7/Luck_Key-poster.jpg")  # noqa
+             img="https://upload.wikimedia.org/wikipedia/commons/9/98/Kim%27s_convenience_toronto.jpg")  # noqa
 
 session.add(item5)
 session.commit()
