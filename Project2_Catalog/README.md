@@ -64,16 +64,16 @@ Please check out the following for further demonstration.
 &nbsp;
 ## Application demo 
 &nbsp;
-#### Five latest movies/shows
+### 1. Browse five latest movies/shows on the first page.
 ![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/first_page.gif) 
 &nbsp;
-#### Manage categories
+### 2. On the second page, log in to manage each categories. 
 ![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/manage_category.gif)
 &nbsp;
-#### Manage items
+### 3. Manage each item within a specific category.
 ![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/manage_item.gif)
 &nbsp;
-#### Public view for each item before sign-in
+### 4. Public view for each item before you sign-in.
 ![](https://github.com/faith7/Udacity_Projects_FullStack/blob/master/Project2_Catalog/result_view_gif/manage_item.gif) 
 
 &nbsp;
