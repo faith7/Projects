@@ -37,7 +37,7 @@ $ vagrant up
 $ vagrant ssh
 ```
 
-#### 5. set up database environment& data and run the server. 
+#### 4. set up database environment& data and run the server. 
 To run the app, after running vagrant, change directory to Project2_Catalog
 ```
 $ sudo pip install -U Flask-SQLAlchemy
@@ -47,7 +47,7 @@ $ python database_data.py
 $ python app.py 
 ```
 
-#### 6. open your favorite browser and redirect to localhost:5000. Test the application. 
+#### 5. open your favorite browser and redirect to localhost:5000. Test the application. 
 You can create, edit, delete categories and items after sign-in. Only the person who created the item can manage(edit/delete) the specific item as a part of local permission system. Please check out the following for further demonstration.
  
 # application demo 
@@ -67,11 +67,13 @@ $ pycodestyle app.py
 ```
 
 # Further improvement/Limitaions 
-- Other types of Oauth like Facebook log-in.
+- Other types of Oauth like Facebook log-in is not implemented.
 - Bootstrap is used for the front end development. 
-   Header.html include script tags instead of using separate css file due to inheritance problem of form styles in css files.
+  Header.html include script tags instead of using separate css file due to inheritance problem of form styles in css files.
 - Udacity provided python2 development environment. 
   I upgraded to python3 (Python 3.7.4) for this project and  updated pip accordingly. 
+- Logout file did not use css format. Redirect page did not format correctly. 
+  Further study needed to format json response with CSS properly.
   
 ```
 $ touch .bashrc
