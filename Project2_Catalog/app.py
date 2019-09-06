@@ -1,4 +1,9 @@
-from flask import Flask, render_template, url_for, request, redirect, flash, jsonify  # noqa
+from flask import (Flask,
+                   render_template,
+                   request,
+                   redirect,
+                   jsonify)
+
 from flask import session as login_session
 from flask_bootstrap import Bootstrap
 from sqlalchemy import create_engine
@@ -195,7 +200,8 @@ def newItem():
         img = request.form['img']
         user_id = login_session['user_id']
         if img == '':
-            img = "https://upload.wikimedia.org/wikipedia/commons/4/4f/Black_hole_-_Messier_87_crop_max_res.jpg"  # noqa
+            img = "https://upload.wikimedia.org/wikipedia/commons/4/4f/\
+                   Black_hole_-_Messier_87_crop_max_res.jpg"
         # Create item from requested data
         newItem = Item(show=show, title=title, description=description,
                        release=release, img=img, category_id=category,
@@ -376,7 +382,8 @@ def gconnect():
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
-        response = make_response(json.dumps('Failed to upgrade the authorization code.'), 401)  # noqa
+        response = make_response(json.dumps(
+            'Failed to upgrade the authorization code.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -467,7 +474,8 @@ def gdisconnect():
     print('In gdisconnect access token is %s', access_token)
     print('User name is: ')
     print(login_session['username'])
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']  # noqa
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s'\
+        % login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
     print('result is ')
@@ -485,7 +493,8 @@ def gdisconnect():
         # return render_template("logout.html")
 
     else:
-        response = make_response(json.dumps('Failed to revoke token for given user.', 400))  # noqa
+        response = make_response(json.dumps(
+            'Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
 
