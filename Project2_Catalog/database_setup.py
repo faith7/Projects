@@ -44,7 +44,7 @@ class Item(Base):
     img = Column(String)
 
     category = relationship(
-        Category, backref=backref("item", lazy=True))
+        Category, backref=backref("item", cascade="all, delete",))
     category_id = Column(Integer, ForeignKey('category.id'))
 
     user = relationship(User, backref=backref("user", lazy=True))

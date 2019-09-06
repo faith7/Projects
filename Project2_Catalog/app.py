@@ -1,9 +1,5 @@
-from flask import (Flask,
-                   render_template,
-                   request,
-                   redirect,
-                   jsonify)
-
+from flask import Flask, render_template, url_for,\
+    request, redirect, flash, jsonify
 from flask import session as login_session
 from flask_bootstrap import Bootstrap
 from sqlalchemy import create_engine
@@ -21,7 +17,6 @@ import random
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 import httplib2
-import json
 import string
 from flask import make_response
 import requests
@@ -149,7 +144,12 @@ def editCategory(category_id):
     editCat = session.query(Category).filter_by(id=category_id).one()
     if 'username' not in login_session:
         return redirect('/login')
-
+    # prevent arbitary edit from unauthorized users accessing through the URL
+    if editCat.user_id != login_session['user_id']:
+        return "<script>function myFunction() \
+        {alert('You are not authorized to edit this category.\
+            \\nPlease create your own category to edit.');}\
+        </script><body onload='myFunction()''>"
     if request.method == 'POST':
         if request.form['genre'] == '':
             editCat.genre = editCat.genre
@@ -167,16 +167,21 @@ def editCategory(category_id):
 # Delete a category
 @app.route('/catalog/<int:category_id>/delete/', methods=['GET', 'POST'])
 def delCategory(category_id):
-    delCategory = session.query(Category).filter_by(id=category_id).one()
+    delCat = session.query(Category).filter_by(id=category_id).one()
     if 'username' not in login_session:
         return redirect('/login')
+    if delCat.user_id != login_session['user_id']:
+        return "<script>function myFunction() \
+        {alert('You are not authorized to delete this category.\
+            \\nPlease create your own category to delete.');}\
+        </script><body onload='myFunction()''>"
     if request.method == 'POST':
-        session.delete(delCategory)
+        session.delete(delCat)
         session.commit()
         flash("You successfully deleted the category!")
         return redirect(url_for('showCatalog'))
     else:
-        return render_template('delCategory.html', delCategory=delCategory,
+        return render_template('delCategory.html', delCat=delCat,
                                category_id=category_id)
 
 ###################
@@ -200,8 +205,8 @@ def newItem():
         img = request.form['img']
         user_id = login_session['user_id']
         if img == '':
-            img = "https://upload.wikimedia.org/wikipedia/commons/4/4f/\
-                   Black_hole_-_Messier_87_crop_max_res.jpg"
+            img = "https://upload.wikimedia.org/wikipedia/commons/4/4f/"\
+                "Black_hole_-_Messier_87_crop_max_res.jpg"
         # Create item from requested data
         newItem = Item(show=show, title=title, description=description,
                        release=release, img=img, category_id=category,
@@ -226,6 +231,12 @@ def editItem(category_id, item_id):
     editItem = session.query(Item).filter_by(id=item_id).one()
     if 'username' not in login_session:
         return redirect('/login')
+# prevent arbitary edit from unauthorized users accessing through the URL
+    if editItem.user_id != login_session['user_id']:
+        return "<script>function myFunction() {alert\
+        ('You are not authorized to edit this movie or show.\
+        \\nPlease create your own movie/show to edit.');}\
+    </script><body onload='myFunction()''>"
     if request.method == 'POST':
         if request.form['show'] == '':
             editItem.show = editItem.show
@@ -275,6 +286,12 @@ def delItem(category_id, item_id):
     delItem = session.query(Item).filter_by(id=item_id).one()
     if 'username' not in login_session:
         return redirect('/login')
+    # prevent arbitary delete from unauthorized users accessing through the URL
+    if delItem.user_id != login_session['user_id']:
+        return "<script>function myFunction() {alert(\
+            'You are not authorized to delete this movie or show.\
+            \\nPlease create your own movie/show to delete.');} \
+            </script><body onload='myFunction()''>"
     if request.method == 'POST':
         session.delete(delItem)
         session.commit()
@@ -417,9 +434,10 @@ def gconnect():
 
     stored_access_token = login_session.get('access_token')
     stored_gplus_id = login_session.get('gplus_id')
+
     if stored_access_token is not None and gplus_id == stored_gplus_id:
-        response = make_response
-        (json.dumps('Current user is already connected.'), 200)
+        response = make_response(json.dumps('Current user \
+                            is already connected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
 

@@ -1,61 +1,60 @@
-  {% extends 'header.html'%}
-  {% block content%}
-  <header>
-    <link rel="stylesheet" href="../static/style_login.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type='text/javascript' src='config.js'></script>
-    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
-  </header>
+{% extends 'header.html'%}
+{% block content%}
+<header>
+  <link rel="stylesheet" href="../static/style_login.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script type='text/javascript' src='config.js'></script>
+  <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+</header>
 
-  <body>
-    <script>
-      function start() {
-        gapi.load('auth2', function () {
-          auth2 = gapi.auth2.init({
-            client_id: "65853107690-i77pj73t6p2tn9a584gneetn1ors5vcp.apps.googleusercontent.com"
-          });
+<body>
+  <script>
+    function start() {
+      gapi.load('auth2', function () {
+        auth2 = gapi.auth2.init({
+          client_id: "65853107690-i77pj73t6p2tn9a584gneetn1ors5vcp.apps.googleusercontent.com"
         });
-      }
-    </script>
-
-    <div class="row align-items-center">
-      <div class="col">
-        <button id="signinButton"><i class="fa fa-google-plus-official"></i>Google Signin</button>
-      </div>
-    </div>
-
-    <div id="result"></div>
-
-    <script>
-      $('#signinButton').click(function () {
-
-        function signInCallback(authResult) {
-          if (authResult['code']) {
-            $('#signinButton').attr('style', 'display: none');
-            $.ajax({
-              type: 'POST',
-              url: '/gconnect?state={{STATE}}',
-              headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-              },
-              contentType: 'application/octet-stream; charset=utf-8',
-              success: function (result) {
-                $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...')
-                setTimeout(function () {
-                  window.location.href = "/";
-                }, 2000);
-              },
-              processData: false,
-              data: authResult['code']
-            });
-          } else {
-            // handle error
-            console.log('There was an error: ' + authResult['error']);
-            $('#result').html('Failed to make a server-side call. Check your configuration and console.');
-          }
-        }
-        auth2.grantOfflineAccess().then(signInCallback);
       });
-    </script>
-    {%endblock%}
-  </body>
+    }
+  </script>
+
+  <div class="row align-items-center">
+    <div class="col">
+      <button id="signinButton"><i class="fa fa-google-plus-official"></i>Google Signin</button>
+    </div>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    $('#signinButton').click(function () {
+      function signInCallback(authResult) {
+        if (authResult['code']) {
+          $('#signinButton').attr('style', 'display: none');
+          $.ajax({
+            type: 'POST',
+            url: '/gconnect?state={{STATE}}',
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            contentType: 'application/octet-stream; charset=utf-8',
+            success: function (result) {
+              $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...')
+              setTimeout(function () {
+                window.location.href = "/";
+              }, 2000);
+            },
+            processData: false,
+            data: authResult['code']
+          });
+        } else {
+          // handle error
+          console.log('There was an error: ' + authResult['error']);
+          $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+        }
+      }
+      auth2.grantOfflineAccess().then(signInCallback);
+    });
+  </script>
+  {%endblock%}
+</body>

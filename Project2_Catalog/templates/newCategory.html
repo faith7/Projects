@@ -32,7 +32,7 @@
     <hr>
     <div class="form-group">
       <label for="genre">NEW Category <i class="fa fa-1.5x fa-plus-circle"></i>: </label>
-      <input type="text" class="form-control" name="genre" placeholder="Type a new category">
+      <input type="text" class="form-control" name="genre" placeholder="Type a new category" required>
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
     <a href="{{ url_for('showCategory', category_id=1) }}">CANCEL</button>
