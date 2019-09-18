@@ -369,7 +369,7 @@ def getUserID(email):
 
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "Netflix Recomendation Application"
+APPLICATION_NAME = "Netflix Recomendation"
 
 
 # Create anti-forgery state token
@@ -395,6 +395,7 @@ def gconnect():
 
     try:
         # Upgrade the authorization code into a credentials object
+        # client_secret = os.environ.get['CLIENT_SECRECT']
         oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
