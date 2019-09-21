@@ -32,6 +32,8 @@ This project is to deploy the web application from the previous project(Project 
 ```sh
 $ cd /c/Users/<your User name>/.ssh
 $ ssh -i ~/.ssh/lightsail_key.rsa ubuntu@54.172.77.105 
+(After setting up the firewall, you should connect to -p 2200 instead of -p 22)
+$ ssh -i ~/.ssh/lightsail_key.rsa -p 2200 ubuntu@54.172.77.105
 ```
 
 #### 3. Update and upgrade installed packages.
@@ -231,15 +233,18 @@ $ postgres=# \q; (to quit postgresql)
 
 #### 16. Update database related python files for deployment.
 [database_setup.py]
+```sh
 engine = create_engine('sqlite:///itemcatalog.db',
                        connect_args={'check_same_thread': False}, echo=True)
 ==>>> engine = create_engine('postgresql://catalog:password@localhost/catalog')
+```
 
 [database_data.py]
+```sh
 engine = create_engine('sqlite:///itemcatalog.db',
                        connect_args={'check_same_thread': False}, echo=True)
 ==>>> engine = create_engine('postgresql://catalog:password@localhost/catalog') 
-
+```
 
 #### 17. Disable the default Apache site and restart server. Refer to error logs and file structure for debugging.
 ```sh
