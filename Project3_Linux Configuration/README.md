@@ -4,6 +4,11 @@
 Linux Server Configuration is a part of Udacity Full Stack NanoDegree Program. 
 This project is to deploy the web application from the previous project(Project 2 - Item catalog) that used to be hosted on a local machine. Using apache server 
 
+## Configuration informaiton
+IP address :  54.172.77.105 
+Port for the ssh : 2200
+Url for the application:www.graceruns.com 
+
 ## Technologies for this project 
   - Amazon AWS Lightsail(Ubuntu 18.04.3)
   - Linux Server
@@ -32,7 +37,6 @@ This project is to deploy the web application from the previous project(Project 
 ```sh
 $ cd /c/Users/<your User name>/.ssh
 $ ssh -i ~/.ssh/lightsail_key.rsa ubuntu@54.172.77.105 
-(After setting up the firewall, you should connect to -p 2200 instead of -p 22)
 $ ssh -i ~/.ssh/lightsail_key.rsa -p 2200 ubuntu@54.172.77.105
 ```
 
@@ -66,7 +70,7 @@ $ sudo ufw status
 ```
 
 > On Amazon lightsail instance next to your instance name, click on Manage tab. 
-> Edit Firewall rules. Delete SSH TCP 22. Add UDP port 123 and TCP 2200. 
+> Choose networking tab and edit Firewall rules. Delete SSH TCP 22. Add UDP port 123 and TCP 2200. 
 
 
 #### 6. Create grader user and manage grader access.
@@ -98,7 +102,7 @@ $ su - grader
 $ mkdir .ssh
 $ sudo nano ~/.ssh/authorized_keys
 $ chmod 700 .ssh
-$ chmod 644 .ssh/authorized_keys
+$ sudo chmod 644 .ssh/authorized_keys
 $ sudo nano /etc/ssh/sshd_config 
 >> check if passwordauthnetication is no 
 $ sudo service ssh restart
@@ -122,6 +126,19 @@ $ sudo service apache2 start
 $ sudo apt-get install git
 ```
 
+#### 15. Configure PostgreSQL.
+```sh 
+$ sudo apt-get install postgresql
+$ sudo su - postgres (to change postgres user)
+$ psql (To open interactive terminal)
+$ postgres=# CREATE DATABASE catalog;
+$ postgres=# CREATE USER catalog; 
+$ postgres=# ALTER ROLE catalog WITH PASSWORD 'password'; 
+$ postgres=# GRANT ALL PRIVILEGES ON DATABASE catalog TO catalog;
+$ postgres=# \du; (to check existing roles)
+$ postgres=# \q; (to quit postgresql)    
+```
+
 #### 10. Add catalog.wsgi.
 ```sh 
 $ cd /var/www
@@ -129,6 +146,7 @@ $ sudo mkdir catalog
 $ sudo chown -R grader:grader catalog
 $ cd /var/www/catalog
 $ sudo nano catalog.wsgi
+
 >> add the following code in cataglog.wsgi 
 import sys
 import logging
@@ -144,11 +162,60 @@ application.secret_key = 'super_secret_key'
 $ git clone https://github.com/faith7/Item_Catalog_for_Project3.git catalog
 
 >> After this, folder structure will be as follows
- var/www
-      |_ catalog
-      |        |_ catalog(formerly Item_Catalog_for_Project3.git repo) 
-      |
-      |_ catalog.wsgi
+$ sudo apt install tree
+$ tree /var/www
+ /var/www/
+     |   |_ catalog
+     |   |        |_ catalog(formerly Item_Catalog_for_Project3.git repo) 
+     |   |
+     |   |_ catalog.wsgi
+     |_____html
+```
+
+
+#### 14. Revise Flask project files for deployment
+1) For google developer console, download a new client secret json file after updating google developer console - credentials part. I purchased google domain name (graceruns.com) and linked Amazon aws linux server to DNS. Replace the contents with current client_secrets.json. 
+
+- Authorized JavaScript origins
+   http://www.graceruns.com	 
+
+-  Authorized redirect URIs
+   http://www.graceruns.com/catalog	
+   http://www.graceruns.com/login	
+   http://www.graceruns.com/gconnect
+
+```sh 
+$ sudo nano client_secrets.json
+```   
+2) change app.py to __init__.py 
+ ```sh
+ $ mv app.py __init__.py
+ ```
+2-1) In __init__.py file, update client_id in login.html file as shown in client_secrets.json. 
+
+2-2) In __init__.py file, add absolute path for client_secrets.json 
+```sh
+    APP_PATH = '/var/www/catalog/catalog/' 
+    CLIENT_ID = json.loads(open(APP_PATH + 'client_secrets.json', 'r').read())['web']['client_id']
+```
+ 
+2-3) In __init__.py file, change host and port number.  
+    # app.run(host='0.0.0.0, post=5000) 
+    =>>> app.run() 
+
+#### 16. Update database related python files for deployment.
+[database_setup.py]
+```sh
+engine = create_engine('sqlite:///itemcatalog.db',
+                       connect_args={'check_same_thread': False}, echo=True)
+==>>> engine = create_engine('postgresql://catalog:password@localhost/catalog')
+```
+
+[database_data.py]
+```sh
+engine = create_engine('sqlite:///itemcatalog.db',
+                       connect_args={'check_same_thread': False}, echo=True)
+==>>> engine = create_engine('postgresql://catalog:password@localhost/catalog') 
 ```
 
 #### 12. Install dependencies
@@ -165,6 +232,44 @@ $ pip3 install psycopg2
 $ pip3 install flask_bootstrap
 $ python3 -m pip3 install flask-bootstrap
 ```
+```sh
+$ touch requirements.txt
+$ nano requirements.txt
+bleach==3.1.0
+certifi==2019.6.16
+chardet==3.0.4
+Click==7.0
+dominate==2.4.0
+Flask==1.0.3
+Flask-Bootstrap==3.3.7.1
+Flask-HTTPAuth==3.3.0
+Flask-SQLAlchemy==2.4.0
+httplib2==0.13.0
+idna==2.8
+itsdangerous==1.1.0
+Jinja2==2.10.1
+MarkupSafe==1.1.1
+oauth2client==4.1.3
+packaging==19.0
+passlib==1.7.1
+psycopg2-binary==2.8.3
+pyasn1==0.4.5
+```
+
+```sh
+$ sudo apt-get install python3-pip
+$ pip3 install -r requirements.txt 
+```
+
+Try running sudo -H pip3 install --upgrade pip to upgrade your pip3
+https://gist.github.com/Geoyi/d9fab4f609e9f75941946be45000632b
+sudo apt-get install python3-pip
+Instead of using virtualenv you can use this command in Python3
+python3 -m venv myenv
+/var/www/catalog/catalog/venv/bin/python
+
+import sys
+sys.path.insert(0, "/var/www/catalog/catalog/venv3/lib/python3.5/site-packages") 
 
 #### 13. Configure virtual host
 ```sh
@@ -189,62 +294,6 @@ $ sudo nano /etc/apache2/sites-available/catalog.conf
     LogLevel warn
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
-
-#### 14. Revise Flask project files for deployment
-1) For google developer console, download a new client secret json file after updating google developer console - credentials part. I purchased google domain name (graceruns.com) and linked Amazon aws linux server to DNS. Replace the contents with current client_secrets.json. 
-
-- Authorized JavaScript origins
-   http://www.graceruns.com	 
-
--  Authorized redirect URIs
-   http://www.graceruns.com/catalog	
-   http://www.graceruns.com/login	
-   http://www.graceruns.com/gconnect
-
-```sh 
-$ sudo nano client_secrets.json
-```   
-
-2-1) In __init__.py file, update client_id in login.html file as shown in client_secrets.json. 
-
-2-2) In __init__.py file, add absolute path for client_secrets.json 
-```sh
-    APP_PATH = '/var/www/catalog/catalog/' 
-    CLIENT_ID = json.loads(open(APP_PATH + 'client_secrets.json', 'r').read())['web']['client_id']
-```
- 
-2-3) In __init__.py file, change host and port number.  
-    # app.run(host='0.0.0.0, post=5000) 
-    =>>> app.run() 
-
-
-#### 15. Configure PostgreSQL.
-```sh 
-$ sudo apt-get install postgresql
-$ sudo su - postgres (to change postgres user)
-$ psql (To open interactive terminal)
-$ postgres=# CREATE DATABASE catalog;
-$ postgres=# CREATE USER catalog; 
-$ postgres=# ALTER ROLE catalog WITH PASSWORD 'password'; 
-$ postgres=# GRANT ALL PRIVILEGES ON DATABASE catalog TO catalog;
-$ postgres=# \du; (to check existing roles)
-$ postgres=# \q; (to quit postgresql)    
-```
-
-#### 16. Update database related python files for deployment.
-[database_setup.py]
-```sh
-engine = create_engine('sqlite:///itemcatalog.db',
-                       connect_args={'check_same_thread': False}, echo=True)
-==>>> engine = create_engine('postgresql://catalog:password@localhost/catalog')
-```
-
-[database_data.py]
-```sh
-engine = create_engine('sqlite:///itemcatalog.db',
-                       connect_args={'check_same_thread': False}, echo=True)
-==>>> engine = create_engine('postgresql://catalog:password@localhost/catalog') 
-```
 
 #### 17. Disable the default Apache site and restart server. Refer to error logs and file structure for debugging.
 ```sh
